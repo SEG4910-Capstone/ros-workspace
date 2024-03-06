@@ -15,11 +15,14 @@ slam_toolbox:
     base_frame: base_footprint
     scan_topic: /scan
     mode: localization
+    # This option can be used for mapping the environment
+    # mode: mapping
+
 
     # if you'd like to immediately start continuing a map at a given pose
     # or at the dock, but they are mutually exclusive, if pose is given
     # will use pose
-    map_file_name: /home/dev/dev_ws/my_map_serial
+    map_file_name: /home/my_map_seral
     # map_start_pose: [0.0, 0.0, 0.0]
     map_start_at_dock: true
 
