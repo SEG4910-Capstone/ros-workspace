@@ -2,3 +2,6 @@
 	path = src/ouster-ros
 	url = https://github.com/ouster-lidar/ouster-ros.git
 	branch = ros2
+[submodule "src/sbg_ros2_driver"]
+	path = src/sbg_ros2_driver
+	url = https://github.com/SBG-Systems/sbg_ros2_driver.git
