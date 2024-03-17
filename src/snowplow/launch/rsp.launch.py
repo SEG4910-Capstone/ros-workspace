@@ -19,7 +19,14 @@ def generate_launch_description():
     # Process the URDF file
     pkg_path = os.path.join(get_package_share_directory('snowplow'))
     xacro_file = os.path.join(pkg_path,'description','robot.urdf.xacro')
-    # robot_description_config = xacro.process_file(xacro_file).toxml()
+    
+    # ## Testing gps from turtlebot tutorial
+    # urdf = os.path.join(pkg_path,'description','turtlebot3_waffle_gps.urdf')
+    # with open(urdf, 'r') as infp:
+    #     robot_description_config = infp.read()
+    # ##
+        
+    # TEMP COMMENTED OUT
     robot_description_config = Command(['xacro ', xacro_file, ' use_ros2_control:=', use_ros2_control, ' sim_mode:=', use_sim_time])
     
     # Create a robot_state_publisher node
