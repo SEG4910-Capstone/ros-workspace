@@ -13,7 +13,7 @@
       <material name="black"/>
     </visual>
   </link>
-
+  <!-- <gazebo> -->
   <gazebo reference="gps_link">
       <material>Gazebo/Black</material>
 
@@ -37,30 +37,14 @@
             </noise>
           </vertical>
         </position_sensing>
-      </gps>
-      <!-- <plugin name="my_gps_plugin" filename="libgazebo_ros_gps_sensor.so">
+        </gps>
+      <plugin name="my_gps_plugin" filename="libgazebo_ros_gps_sensor.so">
         <ros>
-          <namespace>/gps</namespace>
+          <!-- <namespace>/gps</namespace> -->
           <remapping>~/out:=/gps/fix</remapping>
         </ros>
         <frame_name>gps_link</frame_name>
-      </plugin> -->
-      <plugin name="hector_gps" filename="libgazebo_ros_gps.so">
-        <alwaysOn>true</alwaysOn>
-        <updateRate>30.0</updateRate>
-        <bodyName>chassis</bodyName>
-        <frameId>gps_link</frameId>
-        <topicName>/fix</topicName>
-        <velocityTopicName>/fix_vel</velocityTopicName>
-        <!-- <referenceLatitude>50.090337</referenceLatitude> -->
-        <!-- <referenceLongitude>14.133275</referenceLongitude> -->
-        <referenceLatitude>0.0</referenceLatitude>
-        <referenceLongitude>0.0</referenceLongitude>
-        <drift>0.0001 0.0001 0.0001</drift>        
-        <gaussianNoise>0.0 0.0 0.0</gaussianNoise>
-        <velocityDrift>0 0 0</velocityDrift>
-        <velocityGaussianNoise>0.0 0.0 0.0</velocityGaussianNoise>
       </plugin>
-    </sensor>
+      </sensor>
   </gazebo>
 </robot>
