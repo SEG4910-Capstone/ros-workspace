@@ -1,33 +1,28 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
   <joint name="gps_joint" type="fixed">
-    <parent>chassis</parent>
-    <child>gps_link</child>
-    <pose>-0.05 0 0.05 0 0 0</pose>
-    <axis>
-      <xyz>0 0 1</xyz>
-    </axis>
+    <parent link="chassis"/>
+    <child link="gps_link"/>
+    <origin xyz="0.276 0 0" rpy="0 0.18 0"/>
   </joint>
   <link name="gps_link">
-  <!-- Some weird bug occurs if this joint gets the default inertia -->
-    <inertial>
-      <pose>-0.052 0 0.111 0 0 0</pose>
-      <inertia>
-        <mass>0.001</mass>
-        <ixx>0.001</ixx>
-        <ixy>0.000</ixy>
-        <ixz>0.000</ixz>
-        <iyy>0.001</iyy>
-        <iyz>0.000</iyz>
-        <izz>0.001</izz>
-      </inertia>
-      <mass>0.125</mass>
-    </inertial>
-    <sensor name="snowplow_gps" type="gps">
-      <always_on>true</always_on>
-      <update_rate>1</update_rate>
-      <pose>0 0 0 0 0 0</pose>
-      <gps>
+    <visual>
+      <geometry>
+          <box size="0.010 0.01 0.01"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+  </link>
+
+  <gazebo reference="gps_link">
+      <material>Gazebo/Black</material>
+
+      <gravity>true</gravity>
+      <sensor name="snowplow_gps" type="gps">
+        <always_on>true</always_on>
+        <update_rate>1</update_rate>
+        <pose>0 0 0 0 0 0</pose>
+        <gps>
         <position_sensing>
           <horizontal>
             <noise type="gaussian">
@@ -43,11 +38,29 @@
           </vertical>
         </position_sensing>
       </gps>
-      <plugin name="my_gps_plugin" filename="libgazebo_ros_gps_sensor.so">
+      <!-- <plugin name="my_gps_plugin" filename="libgazebo_ros_gps_sensor.so">
         <ros>
+          <namespace>/gps</namespace>
           <remapping>~/out:=/gps/fix</remapping>
         </ros>
+        <frame_name>gps_link</frame_name>
+      </plugin> -->
+      <plugin name="hector_gps" filename="libgazebo_ros_gps.so">
+        <alwaysOn>true</alwaysOn>
+        <updateRate>30.0</updateRate>
+        <bodyName>chassis</bodyName>
+        <frameId>gps_link</frameId>
+        <topicName>/fix</topicName>
+        <velocityTopicName>/fix_vel</velocityTopicName>
+        <!-- <referenceLatitude>50.090337</referenceLatitude> -->
+        <!-- <referenceLongitude>14.133275</referenceLongitude> -->
+        <referenceLatitude>0.0</referenceLatitude>
+        <referenceLongitude>0.0</referenceLongitude>
+        <drift>0.0001 0.0001 0.0001</drift>        
+        <gaussianNoise>0.0 0.0 0.0</gaussianNoise>
+        <velocityDrift>0 0 0</velocityDrift>
+        <velocityGaussianNoise>0.0 0.0 0.0</velocityGaussianNoise>
       </plugin>
     </sensor>
-  </link>
+  </gazebo>
 </robot>
