@@ -62,15 +62,17 @@ def generate_launch_description():
                 name="navsat_transform",
                 output="screen",
                 parameters=[rl_params_file, {"use_sim_time": True}],
-                remappings=[
-                    ("imu/data", "imu/data"),
-                    ("gps/fix", "gps/filtered_fix"),
-                    ("gps/filtered", "gps/filtered"),
-                    ("odometry/gps", "odometry/gps"),
-                    ("odometry/filtered", "odometry/global"),
-                ],
+                # remappings=[
+                #     ("imu_plugin/out", "imu/data"),
+                #     ("gps/fix", "gps/filtered_fix"),
+                #     ("gps/filtered", "gps/filtered"),
+                #     ("odometry/gps", "odometry/gps"),
+                #     ("odometry/filtered", "odometry/global"),
+                # ],
             )
-
+    # Translate the following to a launch command
+    # ros2 launch slam_toolbox online_async_launch.py params_file:=./ros-workspace/src/snowplow/config/mapper_params_online_async.yaml use_sim_time:=true
+    
     # The nav2 tutorial with gps launches the nav2 stack wit the following command. Think maybe this overlaps with the navigation_launch.py
     # https://github.com/ros-planning/navigation2_tutorials/blob/master/nav2_gps_waypoint_follower_demo/launch/gps_waypoint_follower.launch.py
     # navigation2_cmd = IncludeLaunchDescription(
@@ -109,7 +111,7 @@ def generate_launch_description():
     # Run the spawner node from the gazebo_ros package. The entity name doesn't really matter if you only have a single robot.
     spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
                         arguments=['-topic', 'robot_description',
-                                   '-entity', 'my_bot'],
+                                   '-entity', 'snowplow'],
                         output='screen')
 
     # New method of spawning the controllers
