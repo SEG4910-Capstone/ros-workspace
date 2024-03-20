@@ -24,8 +24,9 @@ def generate_launch_description():
 
     
     rl_params_file = os.path.join(get_package_share_directory(package_name), 
-                                  "config/robot_localization", "dual_ekf_navsat_params.yaml") # Change me for using different GPS params
-    
+                                  "config/robot_localization", "simulation_ekf_gps.yaml") # Change me for using different GPS params
+    world = os.path.join(get_package_share_directory(package_name), 
+                        "worlds", "capstone_1.world") #<--- Change map as required
     
     # Robot state publisher
     rsp = IncludeLaunchDescription(
@@ -63,7 +64,7 @@ def generate_launch_description():
                 parameters=[rl_params_file, {"use_sim_time": True}],
                 remappings=[
                     ("imu/data", "imu/data"),
-                    ("gps/fix", "gps/fix"),
+                    ("gps/fix", "gps/filtered_fix"),
                     ("gps/filtered", "gps/filtered"),
                     ("odometry/gps", "odometry/gps"),
                     ("odometry/filtered", "odometry/global"),
@@ -102,7 +103,7 @@ def generate_launch_description():
     #          )
     # Fix this later to bring in the param files
     gazebo = ExecuteProcess(
-            cmd=['gazebo', '--verbose', '-s', 'libgazebo_ros_init.so', '-s', 'libgazebo_ros_factory.so'], output='screen'
+            cmd=['gazebo', '--verbose', '-s', 'libgazebo_ros_init.so', '-s', 'libgazebo_ros_factory.so', world], output='screen'
             )
 
     # Run the spawner node from the gazebo_ros package. The entity name doesn't really matter if you only have a single robot.

@@ -14,9 +14,9 @@ slam_toolbox:
     map_frame: map
     base_frame: base_footprint
     scan_topic: /scan
-    mode: localization
+    # mode: localization
     # This option can be used for mapping the environment
-    # mode: mapping
+    mode: mapping
 
 
     # if you'd like to immediately start continuing a map at a given pose
