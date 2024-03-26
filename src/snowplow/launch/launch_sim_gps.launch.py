@@ -61,13 +61,13 @@ def generate_launch_description():
                 name="navsat_transform",
                 output="screen",
                 parameters=[rl_params_file, {"use_sim_time": True}],
-                # remappings=[
-                #     ("imu_plugin/out", "imu/data"),
-                #     ("gps/fix", "gps/filtered_fix"),
-                #     ("gps/filtered", "gps/filtered"),
-                #     ("odometry/gps", "odometry/gps"),
-                #     ("odometry/filtered", "odometry/global"),
-                # ],
+                remappings=[
+                    ("imu_plugin/out", "imu/data"),
+                    ("gps/fix", "gps/filtered_fix"),
+                    ("gps/filtered", "gps/filtered"),
+                    ("odometry/gps", "odometry/gps"),
+                    ("odometry/filtered", "odometry/global"),
+                ],
             )
     
     # The nav2 tutorial with gps launches the nav2 stack wit the following command. Think maybe this overlaps with the navigation_launch.py
