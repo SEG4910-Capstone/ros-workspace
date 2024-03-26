@@ -11,7 +11,7 @@ from launch_ros.actions import Node
 def generate_launch_description():
     
     slam_toolbox_config = os.path.join(get_package_share_directory("snowplow"), 
-                                "config","slam", "mapper_params_online_async.yaml")
+                                "config","slam", "localization_params_online_async.yaml")
 
 
     slam_toolbox = IncludeLaunchDescription(
