@@ -27,5 +27,5 @@ This command launches the virtual environment with the simulated physical robot 
 ```ros2 launch snowplow localization.launch.py use_sim_time:=true map:=[the yaml file generated from SLAM mapping] params_file:=[location to nav2 config]``` 
 This command launches the map server and AMCL. The params_file parameter is optional again as it is defaulted to a
 preset config file. </br>
-```ros2 launch snowplow navigation_launch.py use_sim_time:=true map_subscribe_transient_local:=true```
-This command launches the nav2 stack which has all the plugins for waypoint following, behavior tree, path planning, etc.
+```ros2 launch snowplow navigation_launch.py use_sim_time:=true map_subscribe_transient_local:=true default_bt_xml_filename:=[path to bt tree file]```
+This command launches the nav2 stack which has all the plugins for waypoint following, behavior tree, path planning, etc. defaukt_bt_xml_filename parameter is optional and defaults to an existing config if nothing is passed.
