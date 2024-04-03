@@ -17,7 +17,6 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-#find_package(ros2_full_sensor_suite REQUIRED)
 
 #target_link_libraries("/home/ros-workspace/install/ros2_full_sensor_suite/lib/libgazebo_ros_gps.so")
 # Link against the library
