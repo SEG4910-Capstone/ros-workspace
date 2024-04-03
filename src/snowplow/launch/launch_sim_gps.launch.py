@@ -22,6 +22,7 @@ def generate_launch_description():
 
     package_name='snowplow' #<--- CHANGE ME
 
+    
     rl_params_file = os.path.join(get_package_share_directory(package_name), 
                                   "config/robot_localization", "simulation_ekf_gps.yaml") # Change me for using different GPS params
     world = os.path.join(get_package_share_directory(package_name), 
@@ -69,6 +70,8 @@ def generate_launch_description():
                 #     ("odometry/filtered", "odometry/global"),
                 # ],
             )
+    # Translate the following to a launch command
+    # ros2 launch slam_toolbox online_async_launch.py params_file:=./ros-workspace/src/snowplow/config/mapper_params_online_async.yaml use_sim_time:=true
     
     # The nav2 tutorial with gps launches the nav2 stack wit the following command. Think maybe this overlaps with the navigation_launch.py
     # https://github.com/ros-planning/navigation2_tutorials/blob/master/nav2_gps_waypoint_follower_demo/launch/gps_waypoint_follower.launch.py
@@ -100,7 +103,7 @@ def generate_launch_description():
     #                 get_package_share_directory('gazebo_ros'), 'launch', 'gazebo.launch.py')]),
     #                 launch_arguments={'extra_gazebo_args': '--ros-args --params-file ' + gazebo_params_file}.items()
     #          )
-    # The above method of launching gazebo causes some issues that I'm not sure how to resolve. For now, this will work.
+    # Fix this later to bring in the param files
     gazebo = ExecuteProcess(
             cmd=['gazebo', '--verbose', '-s', 'libgazebo_ros_init.so', '-s', 'libgazebo_ros_factory.so', world], output='screen'
             )
@@ -150,6 +153,7 @@ def generate_launch_description():
             on_start=[joint_broad_spawner],
         )
     )
+
 
     # Launch them all!
     return LaunchDescription([

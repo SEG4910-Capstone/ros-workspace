@@ -1,13 +1,10 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
 
-
-    <!-- LIDAR -->
-
     <joint name="laser_joint" type="fixed">
         <parent link="chassis"/>
         <child link="laser_frame"/>
-        <origin xyz="0.10 0 0.556" rpy="0 0 0"/>
+        <origin xyz="0.122 0 0.212" rpy="0 0 0"/>
     </joint>
 
     <link name="laser_frame">
@@ -20,7 +17,7 @@
         <visual>
             <origin xyz="0 0 -0.05"/>
             <geometry>
-                <cylinder radius="0.07" length="0.1"/>
+                <cylinder radius="0.01" length="0.1"/>
             </geometry>
             <material name="black"/>
         </visual>
@@ -64,38 +61,6 @@
                 <frame_name>laser_frame</frame_name>
             </plugin>
         </sensor>
-    </gazebo>
-
-
-
-    <!-- LIDAR HOLDER -->
-
-    <joint name="mount_joint" type="fixed"> 
-        <parent link="chassis"/>
-        <child link="lidar_holder"/>
-        <origin xyz="0 0 0.456" rpy="0 0 0"/>
-    </joint>
-
-    <link name="lidar_holder">
-         <visual>
-            <geometry>
-                <box size="0.40 0.14 0.03"/>
-            </geometry>
-            <material name="grey"/>
-        </visual>
-        <collision>
-            <geometry>
-                <box size="0.25 0.14 0.03"/>
-            </geometry>
-        </collision>
-        <xacro:inertial_box mass="0.05" x="0.25" y="0.14" z="0.03">
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-        </xacro:inertial_box>
-
-    </link>
-
-    <gazebo reference="lidar_holder">
-        <material>Gazebo/Grey</material>
     </gazebo>
 
 </robot>

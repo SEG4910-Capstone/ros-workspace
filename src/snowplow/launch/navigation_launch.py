@@ -34,18 +34,12 @@ def generate_launch_description():
     default_bt_xml_filename = LaunchConfiguration('default_bt_xml_filename')
     map_subscribe_transient_local = LaunchConfiguration('map_subscribe_transient_local')
 
-    # lifecycle_nodes = ['controller_server',
-    #                    'smoother_server',
-    #                    'planner_server',
-    #                    'behavior_server',
-    #                    'bt_navigator',
-    #                    'waypoint_follower',
-    #                    'velocity_smoother']
     lifecycle_nodes = ['controller_server',
                        'planner_server',
-                       'behavior_server',
+                       'recoveries_server',
                        'bt_navigator',
                        'waypoint_follower']
+
     # Map fully qualified names to relative ones so the node's namespace can be prepended.
     # In case of the transforms (tf), currently, there doesn't seem to be a better alternative
     # https://github.com/ros/geometry2/issues/32
@@ -86,7 +80,7 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'params_file',
-            default_value=os.path.join(bringup_dir, 'config', 'nav2', 'nav2_params.yaml'),
+            default_value=os.path.join(bringup_dir, 'config', 'nav2_params.yaml'),
             description='Full path to the ROS2 parameters file to use'),
 
         DeclareLaunchArgument(
@@ -106,14 +100,7 @@ def generate_launch_description():
             output='screen',
             parameters=[configured_params],
             remappings=remappings),
-        # Node(
-        #         package='nav2_smoother',
-        #         executable='smoother_server',
-        #         name='smoother_server',
-        #         output='screen',
-        #         respawn_delay=2.0,
-        #         parameters=[configured_params],
-        #         remappings=remappings),
+
         Node(
             package='nav2_planner',
             executable='planner_server',
@@ -122,16 +109,13 @@ def generate_launch_description():
             parameters=[configured_params],
             remappings=remappings),
 
-        # Recovery changed. nav2_recoveries is now nav2_behaviors but it doesnt
-        # have a recoveries_server executable. Need to figure out what to do with this
-
-        # Node(
-        #     package='nav2_behaviors',
-        #     executable='recoveries_server',
-        #     name='recoveries_server',
-        #     output='screen',
-        #     parameters=[configured_params],
-        #     remappings=remappings),
+        Node(
+            package='nav2_recoveries',
+            executable='recoveries_server',
+            name='recoveries_server',
+            output='screen',
+            parameters=[configured_params],
+            remappings=remappings),
 
         Node(
             package='nav2_bt_navigator',
@@ -140,14 +124,7 @@ def generate_launch_description():
             output='screen',
             parameters=[configured_params],
             remappings=remappings),
-        Node(
-            package='nav2_behaviors',
-            executable='behavior_server',
-            name='behavior_server',
-            output='screen',
-            respawn_delay=2.0,
-            parameters=[configured_params],
-            remappings=remappings),
+
         Node(
             package='nav2_waypoint_follower',
             executable='waypoint_follower',
@@ -155,15 +132,7 @@ def generate_launch_description():
             output='screen',
             parameters=[configured_params],
             remappings=remappings),
-        # Node(
-        #     package='nav2_velocity_smoother',
-        #     executable='velocity_smoother',
-        #     name='velocity_smoother',
-        #     output='screen',
-        #     respawn_delay=2.0,
-        #     parameters=[configured_params],
-        #     remappings=remappings +
-        #             [('cmd_vel', 'cmd_vel_nav'), ('cmd_vel_smoothed', 'cmd_vel')]),
+
         Node(
             package='nav2_lifecycle_manager',
             executable='lifecycle_manager',
