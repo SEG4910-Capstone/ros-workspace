@@ -213,11 +213,12 @@
             <geometry>
                 <sphere radius="${wheel_radius/2}"/>
             </geometry>
-        </collision>
+        </collision>  
         <xacro:inertial_sphere mass="${caster_wheel_mass}" radius="${wheel_radius/2}">
             <origin xyz="0 0 0" rpy="0 0 0"/>
         </xacro:inertial_sphere>
     </link>
+
 
     <gazebo reference="caster_wheel">
         <material>Gazebo/White</material>
