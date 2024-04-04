@@ -3,7 +3,7 @@
   <joint name="gps_joint" type="fixed">
     <parent link="chassis"/>
     <child link="gps_link"/>
-    <origin xyz="0.276 0 0" rpy="0 0.18 0"/>
+    <origin xyz="-0.375 0 0.278" rpy="0 0.18 0"/>
   </joint>
   <link name="gps_link">
     <visual>
