@@ -5,3 +5,6 @@
 [submodule "src/sbg_ros2_driver"]
 	path = src/sbg_ros2_driver
 	url = https://github.com/SBG-Systems/sbg_ros2_driver.git
+[submodule "src/motor-controller"]
+	path = src/motor-controller
+	url = https://github.com/SEG4910-Capstone/motor-controller.git

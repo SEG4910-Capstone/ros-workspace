@@ -64,7 +64,7 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'map',
-            default_value=os.path.join(bringup_dir, 'maps', 'turtlebot3_world.yaml'),
+            default_value=os.path.join(bringup_dir, 'worlds', 'slam', 'capstone_test.yaml'),
             description='Full path to map yaml file to load'),
 
         DeclareLaunchArgument(
@@ -77,7 +77,7 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'params_file',
-            default_value=os.path.join(bringup_dir, 'config', 'nav2_params.yaml'),
+            default_value=os.path.join(bringup_dir, 'config','nav2', 'nav2_params.yaml'),
             description='Full path to the ROS2 parameters file to use'),
 
         Node(
