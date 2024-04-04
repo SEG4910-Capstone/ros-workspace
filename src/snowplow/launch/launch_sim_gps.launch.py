@@ -157,7 +157,6 @@ def generate_launch_description():
         rsp,
         joystick,
         twist_mux,
-        # gazebo,
         gazebo_srv,
         gazebo_client,
         spawn_entity,
