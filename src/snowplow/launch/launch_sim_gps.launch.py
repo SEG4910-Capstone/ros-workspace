@@ -22,7 +22,6 @@ def generate_launch_description():
 
     package_name='snowplow' #<--- CHANGE ME
 
-    
     rl_params_file = os.path.join(get_package_share_directory(package_name), 
                                   "config/robot_localization", "simulation_ekf_gps.yaml") # Change me for using different GPS params
     world = os.path.join(get_package_share_directory(package_name), 
@@ -70,8 +69,6 @@ def generate_launch_description():
                 #     ("odometry/filtered", "odometry/global"),
                 # ],
             )
-    # Translate the following to a launch command
-    # ros2 launch slam_toolbox online_async_launch.py params_file:=./ros-workspace/src/snowplow/config/mapper_params_online_async.yaml use_sim_time:=true
     
     # The nav2 tutorial with gps launches the nav2 stack wit the following command. Think maybe this overlaps with the navigation_launch.py
     # https://github.com/ros-planning/navigation2_tutorials/blob/master/nav2_gps_waypoint_follower_demo/launch/gps_waypoint_follower.launch.py
@@ -98,15 +95,16 @@ def generate_launch_description():
     gazebo_params_file = os.path.join(get_package_share_directory(package_name),'config','gazebo_params.yaml')
 
     # Include the Gazebo launch file, provided by the gazebo_ros package
-    # gazebo = IncludeLaunchDescription(
-    #             PythonLaunchDescriptionSource([os.path.join(
-    #                 get_package_share_directory('gazebo_ros'), 'launch', 'gazebo.launch.py')]),
-    #                 launch_arguments={'extra_gazebo_args': '--ros-args --params-file ' + gazebo_params_file}.items()
-    #          )
-    # Fix this later to bring in the param files
-    gazebo = ExecuteProcess(
-            cmd=['gazebo', '--verbose', '-s', 'libgazebo_ros_init.so', '-s', 'libgazebo_ros_factory.so', world], output='screen'
-            )
+    gazebo_srv = IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([os.path.join(
+                    get_package_share_directory('gazebo_ros'),'launch','gzserver.launch.py'
+                )]), launch_arguments={'use_sim_time': 'true', 'use_ros2_control': 'true', 'world': world, 'params_file': gazebo_params_file}.items()
+    )
+    gazebo_client = IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([os.path.join(
+                    get_package_share_directory('gazebo_ros'),'launch','gzclient.launch.py'
+                )]), launch_arguments={'use_sim_time': 'true', 'use_ros2_control': 'true'}.items()
+    )
 
     # Run the spawner node from the gazebo_ros package. The entity name doesn't really matter if you only have a single robot.
     spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
@@ -154,13 +152,13 @@ def generate_launch_description():
         )
     )
 
-
     # Launch them all!
     return LaunchDescription([
         rsp,
         joystick,
         twist_mux,
-        gazebo,
+        gazebo_srv,
+        gazebo_client,
         spawn_entity,
         delayed_controller_manager,
         delayed_diff_drive_spawner,
