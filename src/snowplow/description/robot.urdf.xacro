@@ -16,6 +16,8 @@
     <xacro:include filename="imu.xacro" />
     <xacro:include filename="gps.xacro"/>
     <xacro:include filename="plowblade.xacro"/>
+    <xacro:include filename="battery.xacro"/>
+
 
     <!-- <xacro:include filename="camera.xacro" /> -->
     <!-- <xacro:include filename="depth_camera.xacro" /> -->
