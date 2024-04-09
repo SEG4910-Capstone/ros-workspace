@@ -7,15 +7,15 @@
     <xacro:property name="chassis_length" value="0.750"/>
     <xacro:property name="chassis_width" value="0.696"/>
     <xacro:property name="chassis_height" value="0.556"/>
-    <xacro:property name="chassis_mass" value="1.0"/>
+    <xacro:property name="chassis_mass" value="3.0"/>
     <xacro:property name="wheel_radius" value="0.16"/>
     <xacro:property name="wheel_thickness" value="0.19"/>
-    <xacro:property name="wheel_mass" value="0.05"/>
+    <xacro:property name="wheel_mass" value="1.0"/>
     <xacro:property name="wheel_offset_x" value="0.226"/>
     <xacro:property name="wheel_offset_y" value="${chassis_width/2 + wheel_thickness + 0.01}"/>
     <xacro:property name="wheel_offset_z" value="0.01"/>
     <xacro:property name="caster_wheel_radius" value="0.01"/>
-    <xacro:property name="caster_wheel_mass" value="0.01"/>
+    <xacro:property name="caster_wheel_mass" value="0.2"/>
     <xacro:property name="caster_wheel_offset_x" value="0.075"/>
     <xacro:property name="caster_wheel_offset_z" value="${wheel_offset_z - wheel_radius + caster_wheel_radius}"/>
 
@@ -91,7 +91,7 @@
                 <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
             </geometry>
         </collision>
-        <xacro:inertial_box mass="0.5" x="${chassis_length}" y="${chassis_width}" z="${chassis_height}">
+        <xacro:inertial_box mass="${chassis_mass}" x="${chassis_length}" y="${chassis_width}" z="${chassis_height}">
             <origin xyz="${-chassis_length/2} 0 ${chassis_height/2}" rpy="0 0 0"/>
         </xacro:inertial_box>
     </link>
@@ -161,9 +161,9 @@
 
     <gazebo reference="right_wheel">
         <material>Gazebo/Black</material>
+        <!-- <mu1>0.01</mu1> 
+        <mu2>0.01</mu2>  -->
     </gazebo>
-
-
 
 
     <joint name="wheel_joint" type="fixed">
@@ -182,7 +182,7 @@
         </visual>
         <collision>
             <geometry>
-                <cylinder radius="0.01"/>
+                <cylinder radius="0.01" length="${chassis_width + wheel_thickness + 0.01}"/>
             </geometry>
         </collision>
     </link>
@@ -218,7 +218,6 @@
             <origin xyz="0 0 0" rpy="0 0 0"/>
         </xacro:inertial_sphere>
     </link>
-
 
     <gazebo reference="caster_wheel">
         <material>Gazebo/White</material>

@@ -2,7 +2,7 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
   
   <!-- Define parameters -->
-    <xacro:property name="plow_height" value="${chassis_height - 0.2}"/> <!-- Height of the snowplow blade -->
+  <xacro:property name="plow_height" value="${chassis_height - 0.2}"/> <!-- Height of the snowplow blade -->
   <xacro:property name="plow_width" value="1.5"/> <!-- Width of the snowplow blade -->
   <xacro:property name="plow_length" value="0.1"/> <!-- Length of the snowplow blade -->
   <xacro:property name="sphere_radius" value="0.05"/> <!-- Radius of the sphere -->
@@ -32,7 +32,7 @@
         </visual>
         <collision>
             <geometry>
-                <cylinder radius="0.01"/>
+                <cylinder radius="0.01" length="${bar_length}"/>
             </geometry>
         </collision>
     </link>
@@ -91,10 +91,9 @@
 
   <!-- Gazebo specific properties -->
   <gazebo reference="snowplow_blade_link">
-    <mu1>1000</mu1> <!-- Friction coefficient -->
-    <mu2>1000</mu2> <!-- Friction coefficient -->
+    <!-- <mu1>1000</mu1> Friction coefficient -->
+    <!-- <mu2>1000</mu2> Friction coefficient -->
     <material>Gazebo/Grey</material> <!-- Gazebo built-in material -->
-    <turnGravityOff>true</turnGravityOff> <!-- Turn off gravity for the link -->
   </gazebo>
 
 </robot>
