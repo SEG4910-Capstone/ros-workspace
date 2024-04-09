@@ -21,7 +21,7 @@
                 <box size="${chassis_length/2} ${chassis_width/2} ${chassis_height/2}"/>
             </geometry>
         </collision>
-        <xacro:inertial_box mass="10.0" x="${chassis_length/2}" y="${chassis_width/2}" z="${chassis_height/2}">
+        <xacro:inertial_box mass="30.0" x="${chassis_length/2}" y="${chassis_width/2}" z="${chassis_height/2}">
             <origin xyz="0 0 0" rpy="0 0 0"/>
         </xacro:inertial_box>
     </link>
