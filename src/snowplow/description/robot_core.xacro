@@ -120,6 +120,19 @@
             <geometry>
                 <sphere radius="${wheel_radius}"/>
             </geometry>
+            <surface>
+                <friction>
+                <ode>
+                    <mu>10000.0</mu>
+                    <mu2>10000.0</mu2>
+                </ode>
+                </friction>
+                <contact>
+                <ode>
+                    <min_depth>0.003</min_depth>
+                </ode>
+                </contact>
+            </surface>
         </collision>
         <xacro:inertial_cylinder mass="${wheel_mass}" length="${wheel_thickness}" radius="${wheel_radius}">
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -153,6 +166,19 @@
             <geometry>
                 <sphere radius="${wheel_radius}"/>
             </geometry>
+            <surface>
+                <friction>
+                <ode>
+                    <mu>10000.0</mu>
+                    <mu2>10000.0</mu2>
+                </ode>
+                </friction>
+                <contact>
+                <ode>
+                    <min_depth>0.003</min_depth>
+                </ode>
+                </contact>
+            </surface>
         </collision>
         <xacro:inertial_cylinder mass="${wheel_mass}" length="${wheel_thickness}" radius="${wheel_radius}">
             <origin xyz="0 0 0" rpy="0 0 0"/>
@@ -161,8 +187,6 @@
 
     <gazebo reference="right_wheel">
         <material>Gazebo/Black</material>
-        <!-- <mu1>0.01</mu1> 
-        <mu2>0.01</mu2>  -->
     </gazebo>
 
 
