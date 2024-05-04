@@ -57,14 +57,25 @@ def generate_launch_description():
     #                 launch_arguments={'extra_gazebo_args': '--ros-args --params-file ' + gazebo_params_file}.items()
     #          )
     # Fix this later to bring in the param files
-    gazebo = ExecuteProcess(
-            cmd=['gazebo', '--verbose', '-s', 'libgazebo_ros_init.so', '-s', 'libgazebo_ros_factory.so', world], output='screen'
-            )
-
+    # gazebo = ExecuteProcess(
+    #         cmd=['gazebo', '--verbose', '-s', 'libgazebo_ros_init.so', '-s', 'libgazebo_ros_factory.so', world], output='screen'
+    #         )
+    # Include the Gazebo launch file, provided by the gazebo_ros package
+    gazebo_srv = IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([os.path.join(
+                    get_package_share_directory('gazebo_ros'),'launch','gzserver.launch.py'
+                )]), launch_arguments={'use_sim_time': 'true', 'use_ros2_control': 'true', 'world': world, 'params_file': gazebo_params_file}.items()
+    )
+    gazebo_client = IncludeLaunchDescription(
+                PythonLaunchDescriptionSource([os.path.join(
+                    get_package_share_directory('gazebo_ros'),'launch','gzclient.launch.py'
+                )]), launch_arguments={'use_sim_time': 'true', 'use_ros2_control': 'true'}.items()
+    )
     # Run the spawner node from the gazebo_ros package. The entity name doesn't really matter if you only have a single robot.
     spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
                         arguments=['-topic', 'robot_description',
-                                   '-entity', 'snowplow_bot'],
+                                   '-entity', 'snowplow_bot',
+                                   '-x' ,'0', '-y', '0', '-z', '0'],
                         output='screen')
 
     # New method of spawning the controllers
@@ -113,7 +124,8 @@ def generate_launch_description():
         rsp,
         joystick,
         twist_mux,
-        gazebo,
+        gazebo_srv,
+        gazebo_client,
         spawn_entity,
         delayed_controller_manager,
         delayed_diff_drive_spawner,

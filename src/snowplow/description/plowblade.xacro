@@ -87,12 +87,13 @@
         <box size="${plow_length} ${plow_width} ${plow_height}"/>
       </geometry>
     </collision>
+    <xacro:inertial_box mass="1.0" x="${plow_length}" y="${plow_width}" z="${plow_height}">
+      <origin xyz="${plow_length / 2} 0 -0.01" rpy="0 0 0"/>
+    </xacro:inertial_box>
   </link>
 
   <!-- Gazebo specific properties -->
   <gazebo reference="snowplow_blade_link">
-    <!-- <mu1>1000</mu1> Friction coefficient -->
-    <!-- <mu2>1000</mu2> Friction coefficient -->
     <material>Gazebo/Grey</material> <!-- Gazebo built-in material -->
   </gazebo>
 
