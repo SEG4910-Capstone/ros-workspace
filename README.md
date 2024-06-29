@@ -1,5 +1,12 @@
 # ros-workspace
 
+## Installing the ros dependencies 
+This will install the dependencies like navigation2, ros2_control, etc on to the system.
+```sudo rosdep init```
+```rosdep update```
+Navigate to the ros-workspace then
+```rosdep install --from-paths src --ignore-src -r -y```
+
 ## Building the workspace
 ```colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release```
 
