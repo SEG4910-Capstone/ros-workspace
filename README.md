@@ -1,10 +1,10 @@
 # ros-workspace
 
 ## Installing the ros dependencies 
-This will install the dependencies like navigation2, ros2_control, etc on to the system.
-```sudo rosdep init```
-```rosdep update```
-Navigate to the ros-workspace then
+This will install the dependencies like navigation2, ros2_control, etc on to the system.<br>
+```sudo rosdep init```<br>
+```rosdep update```<br>
+Navigate to the ros-workspace then <br>
 ```rosdep install --from-paths src --ignore-src -r -y```
 
 ## Building the workspace
