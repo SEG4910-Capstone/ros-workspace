@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <!-- Need to replace this with our hardware interface -->
     <xacro:unless value="$(arg sim_mode)">
         <ros2_control name="RealRobot" type="system">
             <hardware>
@@ -12,6 +11,8 @@
                 <param name="device">/dev/ttyUSB0</param>
                 <param name="baud_rate">115200</param>
                 <param name="timeout">1000</param>
+                <!-- Check the enc counter parameter with the electrical team -->
+                <param name="enc_counts_per_rev">3000</param>
             </hardware>
             <joint name="left_wheel_joint">
                 <command_interface name="velocity">
@@ -61,6 +62,10 @@
             <parameters>$(find snowplow)/config/my_controllers.yaml</parameters>
             <parameters>$(find snowplow)/config/gaz_ros2_ctl_use_sim.yaml</parameters>
         </plugin>
+        <plugin name="motor_controller" filename="libmotor_controller.so">
+            <parameters>$(find snowplow)/config/my_controllers.yaml</parameters>
+            <!-- <parameters>$(find snowplow)/config/gaz_ros2_ctl_use_sim.yaml</parameters> -->
+        </plugin>        
     </gazebo>
 
 </robot>
