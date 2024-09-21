@@ -47,3 +47,10 @@ This command launches the map server and AMCL. The params_file parameter is opti
 ```ros2 launch snowplow navigation_launch.py use_sim_time:=true map_subscribe_transient_local:=true default_bt_xml_filename:=[path to bt tree file]```
 <br>
 This command launches the nav2 stack which has all the plugins for waypoint following, behavior tree, path planning, etc. defaukt_bt_xml_filename parameter is optional and defaults to an existing config if nothing is passed.
+
+## Real-testing
+For testing with physical components, the following commands will be required
+1. Start the GPS/IMU driver
+2. Start the lidar driver
+3. Start all the computing ros modules
+    ```ros2 launch snowplow launch_physical_gps.launch```
