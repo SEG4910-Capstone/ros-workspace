@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+  <joint name="gps_joint" type="fixed">
+    <parent link="chassis"/>
+    <child link="gps_link"/>
+    <origin xyz="-0.375 0 0.278" rpy="0 0.18 0"/>
+  </joint>
+  <link name="gps_link">
+    <visual>
+      <geometry>
+          <box size="0.010 0.01 0.01"/>
+      </geometry>
+      <material name="black"/>
+    </visual>
+  </link>
+  <!-- <gazebo> -->
+  <gazebo reference="gps_link">
+      <sensor name="snowplow_gps" type="navsat">
+        <always_on>1</always_on>
+        <update_rate>1</update_rate>
+        <topic>gps/fix</topic>
+        <ignition_frame_id>gps_link</ignition_frame_id>
+      </sensor>
+  </gazebo>
+</robot>

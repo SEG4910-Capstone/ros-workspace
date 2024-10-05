@@ -1,0 +1,642 @@
+<sdf version='1.9'>
+  <model name='robot'>
+    <link name='base_link'>
+      <inertial>
+        <pose>-0.1980982567353408 0.1103011093502377 0.07124564183835187 0 0 0</pose>
+        <mass>6.3099999999999996</mass>
+        <inertia>
+          <ixx>0.95956351381405181</ixx>
+          <ixy>-0.0073763866877971686</ixy>
+          <ixz>0.085782947702060186</ixz>
+          <iyy>1.067313181669308</iyy>
+          <iyz>0.2110589667194929</iyz>
+          <izz>1.1398375236397249</izz>
+        </inertia>
+      </inertial>
+      <collision name='base_link_fixed_joint_lump__chassis_collision'>
+        <pose>-0.375 0 0.268 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.75 0.696 0.556</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__battery_pack_collision_1'>
+        <pose>-0.5625 0 0.268 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.375 0.348 0.278</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__blade_bar_collision_2'>
+        <pose>0.135 0 0.06800000000000002 0 1.570796326794897 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.27000000000000002</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__snowplow_blade_link_collision_3'>
+        <pose>0.32 0 0.06800000000000005 0 -2.029307271513905e-17 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.050000000000000003</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__snowplow_blade_link_collision_4'>
+        <pose>0.37 0 0.05800000000000006 0 -2.029307271513905e-17 0</pose>
+        <geometry>
+          <box>
+            <size>0.1 1.5 0.356</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__caster_wheel_collision_5'>
+        <pose>-0.65 0 -0.09 0 0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.080000000000000002</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.001</mu>
+              <mu2>0.001</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__laser_frame_collision_6'>
+        <pose>0.1 0 0.65 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.040000000000000001</length>
+            <radius>0.050000000000000003</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__lidar_holder_collision_7'>
+        <pose>0 0 0.456 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.25 0.14 0.03</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__wheel_bar_collision_8'>
+        <pose>0 0 0 1.570796326794896 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.89599999999999991</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='base_link_fixed_joint_lump__chassis_visual'>
+        <pose>-0.375 0 0.268 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.75 0.696 0.556</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/LightGrey</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__battery_pack_visual_1'>
+        <pose>-0.5625 0 0.268 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.375 0.348 0.278</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/LightGrey</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__blade_bar_visual_2'>
+        <pose>0.135 0 0.06800000000000002 0 1.570796326794897 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.27000000000000002</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/white</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__snowplow_blade_link_visual_3'>
+        <pose>0.32 0 0.06800000000000005 0 -2.029307271513905e-17 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.050000000000000003</radius>
+          </sphere>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Grey</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.625 0.625 0.625 1</diffuse>
+          <ambient>0.625 0.625 0.625 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__snowplow_blade_link_visual_4'>
+        <pose>0.37 0 0.05800000000000006 0 -2.029307271513905e-17 0</pose>
+        <geometry>
+          <box>
+            <size>0.1 1.5 0.356</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Grey</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0 0 0 1</diffuse>
+          <ambient>0 0 0 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__caster_wheel_visual_5'>
+        <pose>-0.65 0 -0.09 0 0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.080000000000000002</radius>
+          </sphere>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/White</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__face_link_visual_6'>
+        <pose>0 0.05 0.278 0 1.570796326794897 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.002</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0 0 0 1</diffuse>
+          <ambient>0 0 0 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__face_link_visual_7'>
+        <pose>0 -0.05 0.278 0 1.570796326794897 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.002</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0 0 0 1</diffuse>
+          <ambient>0 0 0 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__face_link_visual_8'>
+        <pose>-0.011 0 0.268 0 1.499999999999999 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.02</length>
+            <radius>0.050000000000000003</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0 0 0 1</diffuse>
+          <ambient>0 0 0 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__gps_link_visual_9'>
+        <pose>-0.375 0 0.268 0 0.18 0</pose>
+        <geometry>
+          <box>
+            <size>0.01 0.01 0.01</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+          <ambient>0 0 0 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__imu_link_visual_10'>
+        <pose>-0.375 0 0.268 0 0.18 0</pose>
+        <geometry>
+          <box>
+            <size>0.07 0.03 0.03</size>
+          </box>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+          <ambient>0 0 0 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__imu_link_visual_11'>
+        <pose>-0.3839514786712912 0 0.2188078153605939 0 0.18 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.10000000000000001</length>
+            <radius>0.002</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <diffuse>0 0 0 1</diffuse>
+          <ambient>0 0 0 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__laser_frame_visual_12'>
+        <pose>0.1 0 0.65 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.040000000000000001</length>
+            <radius>0.050000000000000003</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0 0 0 1</diffuse>
+          <ambient>0 0 0 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__laser_frame_visual_13'>
+        <pose>0.1 0 0.65 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.10000000000000001</length>
+            <radius>0.070000000000000007</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0 0 0 1</diffuse>
+          <ambient>0 0 0 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__lidar_holder_visual_14'>
+        <pose>0 0 0.456 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.4 0.14 0.03</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Grey</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0.625 0.625 0.625 1</diffuse>
+          <ambient>0.625 0.625 0.625 1</ambient>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__wheel_bar_visual_15'>
+        <pose>0 0 0 1.570796326794896 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.89599999999999991</length>
+            <radius>0.01</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/white</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>1 1 1 1</diffuse>
+          <ambient>1 1 1 1</ambient>
+        </material>
+      </visual>
+      <sensor name='snowplow_gps' type='navsat'>
+        <always_on>true</always_on>
+        <update_rate>1</update_rate>
+        <topic>gps/fix</topic>
+        <pose>-0.375 0 0.268 0 0.18 0</pose>
+        <ignition_frame_id>gps_link</ignition_frame_id>
+      </sensor>
+      <sensor name='laser' type='gpu_lidar'>
+        <always_on>true</always_on>
+        <visualize>true</visualize>
+        <update_rate>10</update_rate>
+        <lidar>
+          <scan>
+            <horizontal>
+              <resolution>1</resolution>
+              <samples>360</samples>
+              <min_angle>0</min_angle>
+              <max_angle>3.1400000000000001</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.20000000000000001</min>
+            <max>10</max>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+        </lidar>
+        <plugin name='laser_controller' filename='libgazebo_ros_ray_sensor.so'>
+          <ros>
+            <argument>~/out:=scan</argument>
+          </ros>
+          <output_type>sensor_msgs/LaserScan</output_type>
+          <frame_name>laser_frame</frame_name>
+        </plugin>
+        <pose>0.1 0 0.65 0 -0 0</pose>
+        <gz_frame_id>laser_frame</gz_frame_id>
+      </sensor>
+    </link>
+    <joint name='left_wheel_joint' type='revolute'>
+      <pose relative_to='base_link'>0 0.548 0 -1.570796326794896 0 0</pose>
+      <parent>base_link</parent>
+      <child>left_wheel</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-10000000000000000</lower>
+          <upper>10000000000000000</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='left_wheel'>
+      <pose relative_to='left_wheel_joint'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.0094083333333333328</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0094083333333333328</iyy>
+          <iyz>0</iyz>
+          <izz>0.012800000000000001</izz>
+        </inertia>
+      </inertial>
+      <collision name='left_wheel_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.16</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='left_wheel_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.19</length>
+            <radius>0.16</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0 0 0 1</diffuse>
+          <ambient>0 0 0 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <joint name='right_wheel_joint' type='revolute'>
+      <pose relative_to='base_link'>0 -0.548 0 1.570796326794896 0 0</pose>
+      <parent>base_link</parent>
+      <child>right_wheel</child>
+      <axis>
+        <xyz>0 0 -1</xyz>
+        <limit>
+          <lower>-10000000000000000</lower>
+          <upper>10000000000000000</upper>
+        </limit>
+        <dynamics>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='right_wheel'>
+      <pose relative_to='right_wheel_joint'>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 0 0</pose>
+        <mass>1</mass>
+        <inertia>
+          <ixx>0.0094083333333333328</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.0094083333333333328</iyy>
+          <iyz>0</iyz>
+          <izz>0.012800000000000001</izz>
+        </inertia>
+      </inertial>
+      <collision name='right_wheel_collision'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.16</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='right_wheel_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.19</length>
+            <radius>0.16</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+          <diffuse>0 0 0 1</diffuse>
+          <ambient>0 0 0 1</ambient>
+        </material>
+      </visual>
+    </link>
+    <plugin name='gz_ros2_control::GazeboSimROS2ControlPlugin' filename='libgz_ros2_control-system.so'>
+      <parameters>/home/roverpc/ros-workspace/install/snowplow/share/snowplow/config/my_controllers.yaml</parameters>
+    </plugin>
+    <plugin name='motor_controller' filename='libmotor_controller.so'>
+      <parameters>/home/roverpc/ros-workspace/install/snowplow/share/snowplow/config/my_controllers.yaml</parameters>
+    </plugin>
+    <frame name='base_footprint_joint' attached_to='base_link'>
+      <pose>0 0 0 0 -0 0</pose>
+    </frame>
+    <frame name='base_footprint' attached_to='base_footprint_joint'/>
+    <frame name='battery_joint' attached_to='chassis'>
+      <pose>-0.5625 0 0.278 0 -0 0</pose>
+    </frame>
+    <frame name='battery_pack' attached_to='battery_joint'/>
+    <frame name='blade_joint' attached_to='blade_bar'>
+      <pose>0 0 0.185 0 -1.5708 0</pose>
+    </frame>
+    <frame name='snowplow_blade_link' attached_to='blade_joint'/>
+    <frame name='blade_bar_joint' attached_to='chassis'>
+      <pose>0.135 0 0.078 0 1.5708 0</pose>
+    </frame>
+    <frame name='blade_bar' attached_to='blade_bar_joint'/>
+    <frame name='caster_wheel_joint' attached_to='chassis'>
+      <pose>-0.65 0 -0.08 0 -0 0</pose>
+    </frame>
+    <frame name='caster_wheel' attached_to='caster_wheel_joint'/>
+    <frame name='face_joint' attached_to='chassis'>
+      <pose>0 0 0.278 0 -0 0</pose>
+    </frame>
+    <frame name='face_link' attached_to='face_joint'/>
+    <frame name='gps_joint' attached_to='chassis'>
+      <pose>-0.375 0 0.278 0 0.18 0</pose>
+    </frame>
+    <frame name='gps_link' attached_to='gps_joint'/>
+    <frame name='imu_joint' attached_to='chassis'>
+      <pose>-0.375 0 0.278 0 0.18 0</pose>
+    </frame>
+    <frame name='imu_link' attached_to='imu_joint'/>
+    <frame name='laser_joint' attached_to='chassis'>
+      <pose>0.1 0 0.66 0 -0 0</pose>
+    </frame>
+    <frame name='laser_frame' attached_to='laser_joint'/>
+    <frame name='mount_joint' attached_to='chassis'>
+      <pose>0 0 0.466 0 -0 0</pose>
+    </frame>
+    <frame name='lidar_holder' attached_to='mount_joint'/>
+    <frame name='chassis_joint' attached_to='base_link'>
+      <pose>0 0 -0.01 0 -0 0</pose>
+    </frame>
+    <frame name='chassis' attached_to='chassis_joint'/>
+    <frame name='wheel_joint' attached_to='base_link'>
+      <pose>0 0 0 1.5708 -0 0</pose>
+    </frame>
+    <frame name='wheel_bar' attached_to='wheel_joint'/>
+  </model>
+</sdf>

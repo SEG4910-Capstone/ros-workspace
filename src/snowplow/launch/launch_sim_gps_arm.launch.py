@@ -26,11 +26,15 @@ def generate_launch_description():
                                   "config/robot_localization", "simulation_ekf_gps.yaml") # Change me for using different GPS params
     world = os.path.join(get_package_share_directory(package_name), 
                         "worlds", "capstone_1.world") #<--- Change map as required
-    
+    map_file = os.path.join(get_package_share_directory(package_name), 'worlds', 'test.sdf')
+
+    bridge_params = os.path.join(
+        get_package_share_directory(package_name), 'params', 'bridge.yaml')
+
     # Robot state publisher
     rsp = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
-                    get_package_share_directory(package_name),'launch','rsp.launch.py'
+                    get_package_share_directory(package_name),'launch','rsp_ign.launch.py'
                 )]), launch_arguments={'use_sim_time': 'true', 'use_ros2_control': 'true'}.items()
     )
 
@@ -97,21 +101,32 @@ def generate_launch_description():
     # # Include the Gazebo launch file, provided by the gazebo_ros package
     # gazebo_srv = IncludeLaunchDescription(
     #             PythonLaunchDescriptionSource([os.path.join(
-    #                 get_package_share_directory('gazebo_ros'),'launch','gzserver.launch.py'
-    #             )]), launch_arguments={'use_sim_time': 'true', 'use_ros2_control': 'true', 'world': world, 'params_file': gazebo_params_file}.items()
+    #                 get_package_share_directory('ros_gz_sim'),'launch','gz_sim.launch.py'
+    #             )]), launch_arguments={'gz_args': ['-r -s -v4 ', map_file], 'on_exit_shutdown': 'true'}.items()
     # )
     # gazebo_client = IncludeLaunchDescription(
     #             PythonLaunchDescriptionSource([os.path.join(
-    #                 get_package_share_directory('gazebo_ros'),'launch','gzclient.launch.py'
-    #             )]), launch_arguments={'use_sim_time': 'true', 'use_ros2_control': 'true'}.items()
+    #                 get_package_share_directory('ros_gz_sim'),'launch','gz_sim.launch.py'
+    #             )]), launch_arguments={'gz_args': '-g -v4 ', 'on_exit_shutdown': 'true'}.items()
     # )
 
-    # # Run the spawner node from the gazebo_ros package. The entity name doesn't really matter if you only have a single robot.
-    # spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
-    #                     arguments=['-topic', 'robot_description',
-    #                                '-entity', 'snowplow'],
-    #                     output='screen')
-
+    # spawn = Node( package='ros_gz_sim', executable='create', 
+    #             arguments=[
+    #                 '-name', 'snowplow', 
+    #                 '-topic', 'robot_description', 
+    #                 '-x', '0', '-y', '0', '-z', '10.1'], 
+    #             output='screen'
+    #         ) 
+    gazebo_ros_bridge_cmd = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        arguments=[
+            '--ros-args',
+            '-p',
+            f'config_file:={bridge_params}',
+        ],
+        output='screen',
+    )
 
     # New method of spawning the controllers
     robot_description = Command(['ros2 param get --hide-type /robot_state_publisher robot_description'])
@@ -156,6 +171,10 @@ def generate_launch_description():
     # Launch them all!
     return LaunchDescription([
         rsp,
+        # gazebo_srv,
+        # gazebo_client,
+        # spawn,
+        # gazebo_ros_bridge_cmd,
         joystick,
         twist_mux,
         delayed_controller_manager,
