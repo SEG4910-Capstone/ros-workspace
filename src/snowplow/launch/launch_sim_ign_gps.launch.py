@@ -65,17 +65,20 @@ def generate_launch_description():
         output='screen',
         arguments=['-string', doc.toxml(),
                    '-name', 'snowplow',
-                   '-allow_renaming', 'true'],
+                   '-allow_renaming', 'true',
+                   '-x', '0',
+                   '-y', '0',
+                   '-z', '1'],
     )
     
     # Gazebo 
-    bridge = Node(
-        package='ros_gz_bridge',
-        executable='parameter_bridge',
-        arguments=[bridge_config],
-        # arguments=['/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock'],
-        output='screen'
-    )
+    bridge = ExecuteProcess(
+            cmd=[
+                'ros2', 'run', 'ros_gz_bridge', 'parameter_bridge',
+                '--ros-args', '-p', 'config_file:='+bridge_config
+            ],
+            output='screen'
+        )
     gazebo = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 [os.path.join(get_package_share_directory('ros_ign_gazebo'),
@@ -147,13 +150,13 @@ def generate_launch_description():
                 name="navsat_transform",
                 output="screen",
                 parameters=[rl_params_file, {"use_sim_time": True}],
-                # remappings=[
-                #     ("imu_plugin/out", "imu/data"),
-                #     ("gps/fix", "gps/filtered_fix"),
-                #     ("gps/filtered", "gps/filtered"),
-                #     ("odometry/gps", "odometry/gps"),
-                #     ("odometry/filtered", "odometry/global"),
-                # ],
+                remappings=[
+                    ("imu_plugin/out", "imu/data"),
+                    ("gps/fix", "gps/filtered_fix"),
+                    ("gps/filtered", "gps/filtered"),
+                    ("odometry/gps", "odometry/gps"),
+                    ("odometry/filtered", "odometry/global"),
+                ],
             )
     
 
