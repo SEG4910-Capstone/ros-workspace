@@ -20,10 +20,10 @@
   <gazebo reference="gps_link">
       <material>Gazebo/Black</material>
       <sensor name="navsat" type="navsat">
-          <always_on>1</always_on>
-          <update_rate>1</update_rate>
-          <topic>gps/fix</topic>
-          <ignition_frame_id>gps_link</ignition_frame_id>
+            <always_on>1</always_on>
+            <update_rate>1</update_rate>
+            <topic>gps/fix</topic>
+            <ignition_frame_id>gps_link</ignition_frame_id>
       </sensor>
   </gazebo>
 </robot>
