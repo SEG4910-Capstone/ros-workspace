@@ -23,8 +23,8 @@ def generate_launch_description():
     package_name='snowplow' #<--- CHANGE ME
     package_directory = get_package_share_directory(package_name)
     
-    world = os.path.join(package_directory, 
-                         "worlds", "capstone_1.world") #<--- Change map as required
+    rl_params_file = os.path.join(get_package_share_directory(package_name), 
+                                "config/robot_localization", "simulation_ekf_gps.yaml") # Change me for using different GPS params
     map_file = os.path.join(package_directory, 'worlds', 'test.sdf')
 
     bridge_config = os.path.join(package_directory, 'config', 'gazebo_bridge_config.yaml')
@@ -69,22 +69,13 @@ def generate_launch_description():
     )
     
     # Gazebo 
-    # This doesn't work. Tried to look for how to pass the yaml file, but not much luck so just converting the cmd line script directly to a ros launch format
-    # bridge = Node(
-    #     package='ros_gz_bridge',
-    #     executable='parameter_bridge',
-    #     arguments=[bridge_config],
-    #     # arguments=['/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock'],
-    #     output='screen'
-    # )
-
-    bridge = ExecuteProcess(
-            cmd=[
-                'ros2', 'run', 'ros_gz_bridge', 'parameter_bridge',
-                '--ros-args', '-p', 'config_file:='+bridge_config
-            ],
-            output='screen'
-        )
+    bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        arguments=[bridge_config],
+        # arguments=['/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock'],
+        output='screen'
+    )
     gazebo = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(
                 [os.path.join(get_package_share_directory('ros_ign_gazebo'),
@@ -134,7 +125,37 @@ def generate_launch_description():
         )
     )
 
-
+    ekf_odom = Node(
+                package="robot_localization",
+                executable="ekf_node",
+                name="ekf_filter_node_odom",
+                output="screen",
+                parameters=[rl_params_file, {"use_sim_time": True}],
+                remappings=[("odometry/filtered", "odometry/local")],
+            )
+    ekf_map = Node(
+                package="robot_localization",
+                executable="ekf_node",
+                name="ekf_filter_node_map",
+                output="screen",
+                parameters=[rl_params_file, {"use_sim_time": True}],
+                remappings=[("odometry/filtered", "odometry/global")],
+            )
+    navsat = Node(
+                package="robot_localization",
+                executable="navsat_transform_node",
+                name="navsat_transform",
+                output="screen",
+                parameters=[rl_params_file, {"use_sim_time": True}],
+                # remappings=[
+                #     ("imu_plugin/out", "imu/data"),
+                #     ("gps/fix", "gps/filtered_fix"),
+                #     ("gps/filtered", "gps/filtered"),
+                #     ("odometry/gps", "odometry/gps"),
+                #     ("odometry/filtered", "odometry/global"),
+                # ],
+            )
+    
 
     # Launch them all!
     return LaunchDescription([
