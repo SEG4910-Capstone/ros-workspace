@@ -11,3 +11,7 @@
 [submodule "src/xbox_remote_control"]
 	path = src/xbox_remote_control
 	url = https://github.com/SEG4910-Capstone/xbox_remote_control.git
+[submodule "src/gz_ros2_control"]
+	path = src/gz_ros2_control
+	url = https://github.com/ros-controls/gz_ros2_control.git
+	branch = humble
