@@ -23,8 +23,6 @@ def generate_launch_description():
     package_name='snowplow' #<--- CHANGE ME
     package_directory = get_package_share_directory(package_name)
     
-    world = os.path.join(package_directory, 
-                         "worlds", "capstone_1.world") #<--- Change map as required
     map_file = os.path.join(package_directory, 'worlds', 'test.sdf')
 
     bridge_config = os.path.join(package_directory, 'config', 'gazebo_bridge_config.yaml')
@@ -65,7 +63,10 @@ def generate_launch_description():
         output='screen',
         arguments=['-string', doc.toxml(),
                    '-name', 'snowplow',
-                   '-allow_renaming', 'true'],
+                   '-allow_renaming', 'true',
+                    '-x', '0',
+                   '-y', '0',
+                   '-z', '1']
     )
     
     # Gazebo 
