@@ -50,7 +50,7 @@ def generate_launch_description():
                               'robot.urdf_ign.xacro')    
     doc = xacro.parse(open(xacro_file))
     xacro.process_doc(doc)
-    params = {'robot_description': doc.toxml(), 'use_sim_time': True, 'use_ros2_control:=': True, 'sim_mode:=': True}
+    params = {'robot_description': doc.toxml(), 'use_sim_time': True, 'use_ros2_control:=': True}
 
     node_robot_state_publisher = Node(
         package='robot_state_publisher',
