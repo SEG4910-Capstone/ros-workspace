@@ -48,7 +48,7 @@ def generate_launch_description():
                               'robot.urdf_ign.xacro')    
     doc = xacro.parse(open(xacro_file))
     xacro.process_doc(doc)
-    params = {'robot_description': doc.toxml(), 'use_sim_time': True, 'use_ros2_control:=': True, 'sim_mode:=': True}
+    params = {'robot_description': doc.toxml(), 'use_sim_time': True}
 
     node_robot_state_publisher = Node(
         package='robot_state_publisher',
@@ -110,28 +110,52 @@ def generate_launch_description():
             on_exit=controller_manager
         )
     )
-    joint_broad_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["joint_broad"],
+    # joint_broad_spawner = Node(
+    #     package="controller_manager",
+    #     executable="spawner",
+    #     arguments=["joint_broad"],
+    # )
+
+    # delayed_joint_broad_spawner = RegisterEventHandler(
+    #     event_handler=OnProcessStart(
+    #         target_action=controller_manager,
+    #         on_start=[joint_broad_spawner],
+    #     )
+    # )
+    # diff_drive_spawner = Node(
+    #     package="controller_manager",
+    #     executable="spawner",
+    #     arguments=["diff_cont"],
+    # )
+
+    # delayed_diff_drive_spawner = RegisterEventHandler(
+    #     event_handler=OnProcessExit(
+    #         target_action=joint_broad_spawner,
+    #         on_exit=[diff_drive_spawner],
+    #     )
+    # )
+
+    load_joint_state_controller = ExecuteProcess(
+        cmd=['ros2', 'control', 'load_controller', '--set-state', 'active',
+             'joint_broad'],
+        output='screen'
     )
 
-    delayed_joint_broad_spawner = RegisterEventHandler(
-        event_handler=OnProcessStart(
+    delayed_joint_state_controller = RegisterEventHandler(
+        event_handler=OnProcessExit(
             target_action=controller_manager,
-            on_start=[joint_broad_spawner],
+            on_exit=load_joint_state_controller
         )
     )
-    diff_drive_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["diff_cont"],
+    load_diff_drive_controller = ExecuteProcess(
+        cmd=['ros2', 'control', 'load_controller', '--set-state', 'active',
+             'diff_cont'],
+        output='screen'
     )
-
-    delayed_diff_drive_spawner = RegisterEventHandler(
+    delayed_diff_drive_controller = RegisterEventHandler(
         event_handler=OnProcessExit(
-            target_action=joint_broad_spawner,
-            on_exit=[diff_drive_spawner],
+            target_action=load_joint_state_controller,
+            on_exit=load_diff_drive_controller
         )
     )
 
@@ -142,8 +166,10 @@ def generate_launch_description():
         bridge,
         gazebo,
         delayed_controller_manager,
-        delayed_joint_broad_spawner,
-        delayed_diff_drive_spawner,
+        # delayed_joint_broad_spawner,
+        # delayed_diff_drive_spawner,
+        delayed_joint_state_controller,
+        delayed_diff_drive_controller,
         node_robot_state_publisher,
         ignition_spawn_entity,
         joystick,

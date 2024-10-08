@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-    <xacro:unless value="$(arg sim_mode)">
+    <xacro:unless value="$(arg use_sim_time)">
         <ros2_control name="RealRobot" type="system">
             <hardware>
                 <plugin>motor_controller/DiffBotSystemHardware</plugin>
@@ -33,7 +33,7 @@
         </ros2_control>
     </xacro:unless>
 
-    <xacro:if value="$(arg sim_mode)">
+    <xacro:if value="$(arg use_sim_time)">
         <ros2_control name="IgnitionSystem" type="system">
             <hardware>
                 <plugin>ign_ros2_control/IgnitionSystem</plugin>
@@ -60,13 +60,10 @@
     <gazebo>
         <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
             <parameters>$(find snowplow)/config/my_controllers.yaml</parameters>
+            <!-- <controller_manager_name>controller_manager</controller_manager_name> -->
         </plugin>
-        <!-- <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
-            <parameters>$(find snowplow)/config/my_controllers.yaml</parameters>
-        </plugin> -->
         <plugin name="motor_controller" filename="libmotor_controller.so">
             <parameters>$(find snowplow)/config/my_controllers.yaml</parameters>
-            <!-- <parameters>$(find snowplow)/config/gaz_ros2_ctl_use_sim.yaml</parameters> -->
         </plugin>
     </gazebo>
 

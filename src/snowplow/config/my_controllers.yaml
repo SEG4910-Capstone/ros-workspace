@@ -1,6 +1,6 @@
 controller_manager:
   ros__parameters:
-    update_rate: 60
+    update_rate: 100
     # use_sim_time: true
 
     diff_cont:
@@ -25,7 +25,6 @@ diff_cont:
     right_wheel_radius_multiplier: 1.0
 
 
-    publish_rate: 50.0
     odom_frame_id: odom
     base_frame_id: base_link
     # pose_covariance_diagonal : [0.001, 0.001, 0.0, 0.0, 0.0, 0.01]
@@ -33,8 +32,9 @@ diff_cont:
 
     open_loop: false
     use_stamped_vel: false
-    enable_odom_tf: false
+    enable_odom_tf: true
 
+    cmd_vel_timeout: 0.5
     # open_loop: false    
 
     # wheels_per_side: x
