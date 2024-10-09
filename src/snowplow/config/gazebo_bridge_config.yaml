@@ -8,16 +8,16 @@
   gz_topic_name: "/scan"
   ros_type_name: "sensor_msgs/msg/LaserScan"
   gz_type_name: "ignition.msgs.LaserScan"
-  direction: IGN_TO_ROS
+  direction: GZ_TO_ROS
 
 - ros_topic_name: "imu_plugin/out"
   gz_topic_name: "/imu"
   ros_type_name: "sensor_msgs/msg/Imu"
   gz_type_name: "ignition.msgs.IMU"
-  direction: IGN_TO_ROS
+  direction: GZ_TO_ROS
 
 - ros_topic_name: "gps/fix"
   gz_topic_name: "/gps/fix"
   ros_type_name: "sensor_msgs/msg/NavSatFix"
   gz_type_name: "ignition.msgs.NavSat"
-  direction: IGN_TO_ROS
+  direction: GZ_TO_ROS

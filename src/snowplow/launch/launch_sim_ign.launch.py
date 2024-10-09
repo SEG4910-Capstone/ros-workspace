@@ -39,7 +39,7 @@ def generate_launch_description():
             package="twist_mux",
             executable="twist_mux",
             parameters=[twist_mux_params, {'use_sim_time': True}],
-            remappings=[('/cmd_vel_out','/diff_cont/cmd_vel_unstamped')]
+            remappings=[('/cmd_vel','/diff_cont/cmd_vel_unstamped')]
         )
     
 
@@ -49,6 +49,7 @@ def generate_launch_description():
     doc = xacro.parse(open(xacro_file))
     xacro.process_doc(doc)
     params = {'robot_description': doc.toxml(), 'use_sim_time': True}
+    print(params)
 
     node_robot_state_publisher = Node(
         package='robot_state_publisher',
@@ -66,7 +67,7 @@ def generate_launch_description():
                    '-allow_renaming', 'true',
                     '-x', '0',
                    '-y', '0',
-                   '-z', '1']
+                   '-z', '0.25']
     )
     
     # Gazebo 
@@ -100,8 +101,10 @@ def generate_launch_description():
     controller_manager = Node(
         package="controller_manager",
         executable="ros2_control_node",
-        parameters=[{'robot_description': robot_description},
-                    controller_params_file]
+        parameters=[controller_params_file],
+        remappings=[
+            ("~/robot_description", "/robot_description")
+        ]
     )
 
     delayed_controller_manager = RegisterEventHandler(
