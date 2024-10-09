@@ -45,7 +45,7 @@
     <gazebo reference="laser_frame">
         <material>Gazebo/Black</material>
         <sensor name="gpu_lidar" type="gpu_lidar">
-            <pose relative_to='laser_frame'> 0 0 0 0 0 0 </pose>
+            <pose relative_to='laser_frame'> 0 0 0 0 0 4.713 </pose>
             <topic>scan</topic>
             <visualize>true</visualize>
             <update_rate>10</update_rate>
