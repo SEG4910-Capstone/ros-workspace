@@ -93,23 +93,23 @@ def generate_launch_description():
             launch_arguments=[('gz_args', [' -r -v 4 '+ map_file])])
 
     # New method of spawning the controllers
-    robot_description = Command(['ros2 param get --hide-type /robot_state_publisher robot_description'])
+    # robot_description = Command(['ros2 param get --hide-type /robot_state_publisher robot_description'])
 
-    controller_params_file = os.path.join(package_directory,'config','my_controllers.yaml')
+    # controller_params_file = os.path.join(package_directory,'config','my_controllers.yaml')
 
-    controller_manager = Node(
-        package="controller_manager",
-        executable="ros2_control_node",
-        parameters=[{'robot_description': robot_description},
-                    controller_params_file]
-    )
+    # controller_manager = Node(
+    #     package="controller_manager",
+    #     executable="ros2_control_node",
+    #     parameters=[{'robot_description': robot_description},
+    #                 controller_params_file]
+    # )
 
-    delayed_controller_manager = RegisterEventHandler(
-        event_handler=OnProcessExit(
-            target_action=ignition_spawn_entity,
-            on_exit=controller_manager
-        )
-    )
+    # delayed_controller_manager = RegisterEventHandler(
+    #     event_handler=OnProcessExit(
+    #         target_action=ignition_spawn_entity,
+    #         on_exit=controller_manager
+    #     )
+    # )
     # joint_broad_spawner = Node(
     #     package="controller_manager",
     #     executable="spawner",
@@ -143,7 +143,7 @@ def generate_launch_description():
 
     delayed_joint_state_controller = RegisterEventHandler(
         event_handler=OnProcessExit(
-            target_action=controller_manager,
+            target_action=ignition_spawn_entity,
             on_exit=load_joint_state_controller
         )
     )
@@ -165,13 +165,13 @@ def generate_launch_description():
     return LaunchDescription([
         bridge,
         gazebo,
-        delayed_controller_manager,
+        # delayed_controller_manager,
         # delayed_joint_broad_spawner,
         # delayed_diff_drive_spawner,
         delayed_joint_state_controller,
         delayed_diff_drive_controller,
         node_robot_state_publisher,
         ignition_spawn_entity,
-        joystick,
-        twist_mux
+        # joystick,
+        # twist_mux
     ])

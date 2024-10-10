@@ -6,9 +6,7 @@
 
     <xacro:include filename="$(find snowplow)/description/robot_core.xacro" />
 
-    <!-- <xacro:if value="$(arg use_ros2_control)"> -->
-        <xacro:include filename="$(find snowplow)/description/ros2_control_ign.xacro" />
-    <!-- </xacro:if> -->
+    <xacro:include filename="$(find snowplow)/description/ros2_control_ign.xacro" />
 
     <xacro:include filename="$(find snowplow)/description/lidar_ign.xacro" />
     <xacro:include filename="$(find snowplow)/description/imu_ign.xacro" />
