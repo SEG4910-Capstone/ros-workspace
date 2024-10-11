@@ -111,13 +111,10 @@ def generate_launch_description():
     return LaunchDescription([
         bridge,
         gazebo,
-        # delayed_controller_manager,
-        # delayed_joint_broad_spawner,
-        # delayed_diff_drive_spawner,
         delayed_joint_state_controller,
         delayed_diff_drive_controller,
         node_robot_state_publisher,
         ignition_spawn_entity,
-        # joystick,
-        # twist_mux
+        joystick,
+        twist_mux
     ])
