@@ -28,9 +28,6 @@
             <parameters>$(find snowplow)/config/my_controllers.yaml</parameters>
             <!-- <controller_manager_name>controller_manager</controller_manager_name> -->
         </plugin>
-        <plugin name="motor_controller" filename="libmotor_controller.so">
-            <parameters>$(find snowplow)/config/my_controllers.yaml</parameters>
-        </plugin>
     </gazebo>
 
 </robot>

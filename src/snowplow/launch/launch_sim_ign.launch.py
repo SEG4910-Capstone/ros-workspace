@@ -40,7 +40,7 @@ def generate_launch_description():
             executable="twist_mux",
             parameters=[twist_mux_params, {'use_sim_time': True}],
             remappings=[('/cmd_vel_out','/diff_cont/cmd_vel_unstamped')]
-        )
+    )
     
 
     xacro_file = os.path.join(package_directory,
@@ -64,21 +64,10 @@ def generate_launch_description():
         arguments=['-string', doc.toxml(),
                    '-name', 'snowplow',
                    '-allow_renaming', 'true',
-                    '-x', '0',
-                   '-y', '0',
-                   '-z', '1']
+                   '-z', '0.6']
     )
     
     # Gazebo 
-    # This doesn't work. Tried to look for how to pass the yaml file, but not much luck so just converting the cmd line script directly to a ros launch format
-    # bridge = Node(
-    #     package='ros_gz_bridge',
-    #     executable='parameter_bridge',
-    #     arguments=[bridge_config],
-    #     # arguments=['/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock'],
-    #     output='screen'
-    # )
-
     bridge = ExecuteProcess(
             cmd=[
                 'ros2', 'run', 'ros_gz_bridge', 'parameter_bridge',
@@ -92,49 +81,6 @@ def generate_launch_description():
                               'launch', 'ign_gazebo.launch.py')]),
             launch_arguments=[('gz_args', [' -r -v 4 '+ map_file])])
 
-    # New method of spawning the controllers
-    # robot_description = Command(['ros2 param get --hide-type /robot_state_publisher robot_description'])
-
-    # controller_params_file = os.path.join(package_directory,'config','my_controllers.yaml')
-
-    # controller_manager = Node(
-    #     package="controller_manager",
-    #     executable="ros2_control_node",
-    #     parameters=[{'robot_description': robot_description},
-    #                 controller_params_file]
-    # )
-
-    # delayed_controller_manager = RegisterEventHandler(
-    #     event_handler=OnProcessExit(
-    #         target_action=ignition_spawn_entity,
-    #         on_exit=controller_manager
-    #     )
-    # )
-    # joint_broad_spawner = Node(
-    #     package="controller_manager",
-    #     executable="spawner",
-    #     arguments=["joint_broad"],
-    # )
-
-    # delayed_joint_broad_spawner = RegisterEventHandler(
-    #     event_handler=OnProcessStart(
-    #         target_action=controller_manager,
-    #         on_start=[joint_broad_spawner],
-    #     )
-    # )
-    # diff_drive_spawner = Node(
-    #     package="controller_manager",
-    #     executable="spawner",
-    #     arguments=["diff_cont"],
-    # )
-
-    # delayed_diff_drive_spawner = RegisterEventHandler(
-    #     event_handler=OnProcessExit(
-    #         target_action=joint_broad_spawner,
-    #         on_exit=[diff_drive_spawner],
-    #     )
-    # )
-
     load_joint_state_controller = ExecuteProcess(
         cmd=['ros2', 'control', 'load_controller', '--set-state', 'active',
              'joint_broad'],
@@ -144,7 +90,7 @@ def generate_launch_description():
     delayed_joint_state_controller = RegisterEventHandler(
         event_handler=OnProcessExit(
             target_action=ignition_spawn_entity,
-            on_exit=load_joint_state_controller
+            on_exit=[load_joint_state_controller]
         )
     )
     load_diff_drive_controller = ExecuteProcess(
@@ -155,7 +101,7 @@ def generate_launch_description():
     delayed_diff_drive_controller = RegisterEventHandler(
         event_handler=OnProcessExit(
             target_action=load_joint_state_controller,
-            on_exit=load_diff_drive_controller
+            on_exit=[load_diff_drive_controller]
         )
     )
 
