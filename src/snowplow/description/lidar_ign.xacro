@@ -60,7 +60,7 @@
                 </scan>
                 <range>
                     <min>0.08</min>
-                    <max>35.0</max>
+                    <max>20.0</max>
                 </range>
             </ray>
             <always_on>1</always_on>

@@ -23,11 +23,10 @@ def generate_launch_description():
     package_name='snowplow' #<--- CHANGE ME
     package_directory = get_package_share_directory(package_name)
     
-    map_file = os.path.join(package_directory, 'worlds', 'test.sdf')
-
     rl_params_file = os.path.join(get_package_share_directory(package_name), 
                                 "config/robot_localization", "simulation_ekf_gps.yaml") # Change me for using different GPS params
-    
+    map_file = os.path.join(package_directory, 'worlds', 'test.sdf')
+
     bridge_config = os.path.join(package_directory, 'config', 'gazebo_bridge_config.yaml')
     
 
@@ -43,7 +42,7 @@ def generate_launch_description():
             executable="twist_mux",
             parameters=[twist_mux_params, {'use_sim_time': True}],
             remappings=[('/cmd_vel_out','/diff_cont/cmd_vel_unstamped')]
-    )
+        )
     
 
     xacro_file = os.path.join(package_directory,
@@ -51,7 +50,7 @@ def generate_launch_description():
                               'robot.urdf_ign.xacro')    
     doc = xacro.parse(open(xacro_file))
     xacro.process_doc(doc)
-    params = {'robot_description': doc.toxml(), 'use_sim_time': True}
+    params = {'robot_description': doc.toxml(), 'use_sim_time': True, 'use_ros2_control:=': True}
 
     node_robot_state_publisher = Node(
         package='robot_state_publisher',
@@ -67,7 +66,9 @@ def generate_launch_description():
         arguments=['-string', doc.toxml(),
                    '-name', 'snowplow',
                    '-allow_renaming', 'true',
-                   '-z', '0.6']
+                   '-x', '0',
+                   '-y', '0',
+                   '-z', '1'],
     )
     
     # Gazebo 
@@ -138,6 +139,7 @@ def generate_launch_description():
                     ("odometry/filtered", "odometry/global"), # Input Odometry
                 ],
             )
+    
 
     # Launch them all!
     return LaunchDescription([
@@ -149,7 +151,7 @@ def generate_launch_description():
         ignition_spawn_entity,
         joystick,
         twist_mux,
-        # ekf_odom,
-        # ekf_map,
-        # navsat
+        navsat,
+        ekf_odom,
+        ekf_map
     ])
