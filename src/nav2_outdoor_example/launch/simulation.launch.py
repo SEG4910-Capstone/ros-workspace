@@ -22,7 +22,6 @@ def generate_launch_description():
     bridge_config = os.path.join(pkg_share, 'config', 'gazebo_bridge_config.yaml')
 
 
-    # xacro_file = os.path.join(pkg_share, 'urdf', 'robot.xacro.urdf')
     xacro_file = os.path.join(pkg_share, 'urdf', 'robot.urdf_ign.xacro')
     doc = xacro.parse(open(xacro_file))
     xacro.process_doc(doc)

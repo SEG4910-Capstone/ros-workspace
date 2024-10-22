@@ -36,7 +36,7 @@ def generate_launch_description():
             simulation,
             visualization,
             localization,
-            navigation,
+            # navigation,
         ]
     )
 
