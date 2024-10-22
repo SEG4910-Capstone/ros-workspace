@@ -38,8 +38,9 @@ def generate_launch_description():
         }],
         remappings=[
             ('/odometry/filtered', '/odom'),
-        ]
-        )
+        ],
+        arguments=['--ros-args', '--log-level', 'warn']        
+    )
 
     ukf_localization_node = Node(
         package='robot_localization',
