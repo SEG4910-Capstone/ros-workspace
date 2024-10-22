@@ -97,7 +97,7 @@ def generate_launch_description():
                 )
             ),
             bridge,
-            gazebo_frame_modifier
+            # gazebo_frame_modifier
         ]
     )
 
