@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"  name="snowplow">
+
+    <!-- <xacro:arg name="use_ros2_control" default="true"/> -->
+    <xacro:arg name="use_sim_time" default="true"/>
+
+    <xacro:include filename="$(find nav2_outdoor_example)/urdf/robot_core.xacro" />
+    <xacro:include filename="$(find nav2_outdoor_example)/urdf/lidar_ign.xacro" />
+    <xacro:include filename="$(find nav2_outdoor_example)/urdf/imu_ign.xacro" />
+    <xacro:include filename="$(find nav2_outdoor_example)/urdf/gps_ign.xacro"/>
+    <xacro:include filename="$(find nav2_outdoor_example)/urdf/plowblade.xacro"/>
+    <xacro:include filename="$(find nav2_outdoor_example)/urdf/battery.xacro"/>
+    <xacro:include filename="$(find nav2_outdoor_example)/urdf/ros2_control_ign.xacro" />
+
+
+    <!-- <xacro:include filename="camera.xacro" /> -->
+    <!-- <xacro:include filename="depth_camera.xacro" /> -->
+
+    <xacro:include filename="$(find nav2_outdoor_example)/urdf/face.xacro" />
+    
+</robot>

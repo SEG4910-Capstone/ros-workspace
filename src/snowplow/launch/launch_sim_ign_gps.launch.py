@@ -149,7 +149,7 @@ def generate_launch_description():
         ignition_spawn_entity,
         joystick,
         twist_mux,
-        # ekf_odom,
-        # ekf_map,
-        # navsat
+        ekf_odom,
+        ekf_map,
+        navsat
     ])
