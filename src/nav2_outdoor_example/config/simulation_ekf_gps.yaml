@@ -2,7 +2,7 @@
 
 ekf_filter_node_odom:
   ros__parameters:
-    frequency: 100.0
+    frequency: 25.0
     sensor_timeout: 0.1
     two_d_mode: true
     transform_time_offset: 0.0
@@ -15,30 +15,30 @@ ekf_filter_node_odom:
     base_link_frame: base_link
     world_frame: odom
 
-    odom0: diff_cont/odom
+    odom0: diff_drive_base_controller/odom
     odom0_config: [true, true, false,
                   false, false, false,
-                  false,  false,  false,
+                  true,  true,  false,
                   false, false, true,
                   false, false, false]
     odom0_queue_size: 10
-    odom0_nodelay: true
+    odom0_nodelay: false # If synchronization between different sensors is needed, you could set this to false
     odom0_differential: false
     odom0_relative: false
 
-    imu0: imu_plugin/out
+    imu0: /imu_plugin/out
     imu0_config: [false, false, false,
-                  true,  true,  false,
+                  true,  true,  true,
                   false, false, false,
                   true,  true,  true,
                   true,  true,  true]
     imu0_nodelay: false
     imu0_differential: false
-    imu0_relative: false
+    imu0_relative: true
     imu0_queue_size: 10
     imu0_remove_gravitational_acceleration: true
 
-    use_control: false
+    use_control: true
 
     process_noise_covariance: [1e-3, 0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
                               0.0,    1e-3,  0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
@@ -86,37 +86,36 @@ ekf_filter_node_map:
     base_link_frame: base_link
     world_frame: map
 
-    odom0: diff_cont/odom
-    odom0_config: [false, false, false,
+    odom0: diff_drive_base_controller/odom
+    odom0_config: [true, true, false,
                   false, false, false,
-                  true,  true,  true,
+                  true,  true,  false,
                   false, false, true,
                   false, false, false]
     odom0_queue_size: 10
-    odom0_nodelay: true
+    odom0_nodelay: false # If synchronization between different sensors is needed, you could set this to false
     odom0_differential: false
     odom0_relative: false
 
-    odom1: gps/fix
-    odom1_config: [true,  true,  false,
+    odom1: /odometry/gps
+    odom1_config: [true,  true,  true,
                   false, false, false,
-                  false, false, false,
+                  true, true, true,
                   false, false, false,
                   false, false, false]
     odom1_queue_size: 10
     odom1_nodelay: true
     odom1_differential: false
     odom1_relative: false
-
-    imu0: imu_plugin/out
+    imu0: /imu_plugin/out
     imu0_config: [false, false, false,
-                  true,  true,  false,
+                  true,  true,  true,
                   false, false, false,
                   true,  true,  true,
                   true,  true,  true]
-    imu0_nodelay: true
+    imu0_nodelay: false
     imu0_differential: false # If using a real robot you might want to set this to true, since usually absolute measurements from real imu's are not very accurate
-    imu0_relative: false
+    imu0_relative: true
     imu0_queue_size: 10
     imu0_remove_gravitational_acceleration: true
 
