@@ -13,7 +13,9 @@ Panels:
         - /LaserScan1
         - /LaserScan1/Topic1
       Splitter Ratio: 0.5
-    Tree Height: 563
+    Tree Height: 192
+  - Class: slam_toolbox::SlamToolboxPlugin
+    Name: SlamToolboxPlugin
 Visualization Manager:
   Class: ""
   Displays:
@@ -198,10 +200,10 @@ Visualization Manager:
                   {}
                 imu_link:
                   {}
-                laser_frame:
-                  {}
                 lidar_holder:
                   {}
+              laser_frame:
+                {}
               left_wheel:
                 {}
               right_wheel:
@@ -344,16 +346,16 @@ Visualization Manager:
       Channel Name: intensity
       Class: rviz_default_plugins/LaserScan
       Color: 255; 255; 255
-      Color Transformer: ""
+      Color Transformer: Intensity
       Decay Time: 0
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
-      Max Intensity: 4096
+      Max Intensity: 0
       Min Color: 0; 0; 0
       Min Intensity: 0
       Name: LaserScan
-      Position Transformer: ""
+      Position Transformer: XYZ
       Selectable: true
       Size (Pixels): 3
       Size (m): 0.009999999776482582
@@ -396,25 +398,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 13.325154304504395
+      Distance: 7.180503845214844
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.22531920671463013
-        Y: 0.24834749102592468
-        Z: 0.4057903587818146
+        X: -0.106617271900177
+        Y: -0.590247392654419
+        Z: 0.3760596513748169
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.4503986835479736
+      Pitch: 1.3247963190078735
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.05538272857666
+      Yaw: 3.3985671997070312
     Saved: ~
 Window Geometry:
   Displays:
@@ -422,7 +424,9 @@ Window Geometry:
   Height: 793
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd00000001000000000000019d000002c3fc0200000001fb000000100044006900730070006c006100790073010000003b000002c3000000c700ffffff0000045d000002c300000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000100000000000001e7000002c3fc0200000002fb000000100044006900730070006c006100790073010000003b00000150000000c700fffffffb000000220053006c0061006d0054006f006f006c0062006f00780050006c007500670069006e01000001910000016d0000016d00ffffff00000413000002c300000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  SlamToolboxPlugin:
+    collapsed: false
   Width: 1536
-  X: 0
-  Y: 23
+  X: 8
+  Y: 31
