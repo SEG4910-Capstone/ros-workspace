@@ -43,7 +43,7 @@ def generate_launch_description():
         }],
         remappings=[
             ('/odometry/filtered', controller_odom),
-            ("imu", "imu_plugin/out"), # Input Imu
+            ("/imu", "imu_plugin/out"), # Input Imu
         ],
         arguments=['--ros-args', '--log-level', 'warn']
     )
@@ -71,7 +71,7 @@ def generate_launch_description():
         respawn=True,
         parameters=[os.path.join(pkg_share, 'config/ukf.yaml')],
         remappings=[
-            ('/odometry/filtered', controller_odom),
+            ('/odometry/filtered', '/odom'),
         ]
         )
     use_sim_time_arg = DeclareLaunchArgument(
