@@ -21,6 +21,11 @@ def generate_launch_description():
         output='screen',
         arguments = "--x -1 --y 0 --z 0 --roll 0 --pitch 0 --yaw 0 --frame-id map --child-frame-id odom".split(' '),
         )
+    rl_params_file = os.path.join(pkg_share, 
+                            "config/robot_localization", "simulation_ekf_gps.yaml") # Change me for using different GPS params
+    
+    controller_odom = '/diff_drive_base_controller/odom'
+
     navsat_transform_node = Node(
         package='robot_localization',
         executable='navsat_transform_node',
@@ -34,13 +39,30 @@ def generate_launch_description():
             "wait_for_datum": False,
             "publish_filtered_gps": False,
             "broadcast_utm_transform": False,
-            "use_simtime": True,
+            "use_sim_time": True,
         }],
         remappings=[
-            ('/odometry/filtered', '/odom'),
-        ]
-        )
-
+            ('/odometry/filtered', controller_odom),
+            ("imu", "imu_plugin/out"), # Input Imu
+        ],
+        arguments=['--ros-args', '--log-level', 'warn']
+    )
+    ekf_odom = Node(
+                package="robot_localization",
+                executable="ekf_node",
+                name="ekf_filter_node_odom",
+                output="screen",
+                parameters=[rl_params_file, {"use_sim_time": True}],
+                remappings=[("odometry/filtered", "odometry/local")],
+            )
+    ekf_map = Node(
+                package="robot_localization",
+                executable="ekf_node",
+                name="ekf_filter_node_map",
+                output="screen",
+                parameters=[rl_params_file, {"use_sim_time": True}],
+                remappings=[("odometry/filtered", "odometry/global")],
+            )
     ukf_localization_node = Node(
         package='robot_localization',
         executable='ukf_node',
@@ -49,7 +71,7 @@ def generate_launch_description():
         respawn=True,
         parameters=[os.path.join(pkg_share, 'config/ukf.yaml')],
         remappings=[
-            ('/odometry/filtered', '/odom'),
+            ('/odometry/filtered', controller_odom),
         ]
         )
     use_sim_time_arg = DeclareLaunchArgument(
@@ -84,7 +106,7 @@ def generate_launch_description():
             slam_toolbox,
             ukf_localization_node,
             navsat_transform_node,
-            map_transform_node
+            # map_transform_node
         ]
     )
 

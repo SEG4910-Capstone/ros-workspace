@@ -7,7 +7,7 @@
     <joint name="laser_joint" type="fixed">
         <parent link="base_link"/>
         <child link="laser_frame"/>
-        <origin xyz="0.10 0 ${-wheel_offset_z + 0.66}" rpy="0 0 0"/>
+        <origin xyz="0.10 0 ${-wheel_offset_z + 0.66}" rpy="0 0 4.713"/>
     </joint>
 
     <link name="laser_frame">
@@ -45,7 +45,7 @@
     <gazebo reference="laser_frame">
         <material>Gazebo/Black</material>
         <sensor name="laser_frame" type="gpu_lidar">
-            <pose relative_to='laser_frame'> 0 0 0 0 0 4.713 </pose>
+            <pose relative_to='laser_frame'> 0 0 0 0 0 0 </pose>
             <topic>scan</topic>
             <visualize>true</visualize>
             <update_rate>5</update_rate>
@@ -53,7 +53,6 @@
                 <scan>
                     <horizontal>
                         <samples>360</samples>
-                        <min_angle>0</min_angle>
                         <min_angle>-3.14</min_angle>
                         <max_angle>3.14</max_angle>
                     </horizontal>

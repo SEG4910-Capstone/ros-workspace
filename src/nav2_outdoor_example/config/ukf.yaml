@@ -49,7 +49,7 @@ ukf_node:
     odom0_twist_rejection_threshold: 1.0
 
 
-    imu0: /imu
+    imu0: /imu_plugin/out
     imu0_config: [false, false, false,
                   true,  true,  true,
                   false, false, false,
