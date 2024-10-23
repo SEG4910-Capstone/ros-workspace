@@ -66,7 +66,8 @@ ukf_node:
 
     imu0_remove_gravitational_acceleration: true
 
-    use_control: false #/cmd_vel
+    use_control: true #/cmd_vel
+    # control_topic: /custom_cmd_vel_topic
     stamped_control: false
     control_timeout: 0.2
     control_config: [true, false, false, false, false, true]

@@ -103,10 +103,10 @@ def generate_launch_description():
         [
             slam_toolbox_arg,
             use_sim_time_arg,
-            slam_toolbox,
+            # slam_toolbox,
             ukf_localization_node,
             navsat_transform_node,
-            # map_transform_node
+            map_transform_node
         ]
     )
 
