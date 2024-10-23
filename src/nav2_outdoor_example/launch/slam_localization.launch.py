@@ -80,17 +80,6 @@ def generate_launch_description():
         description="Flag for node to follow sim clock",
     )
 
-    default_slam_toolbox_config = os.path.join(get_package_share_directory("nav2_outdoor_example"), 
-                                    "config","slam", "mapper_params_online_async.yaml")
-    slam_toolbox_arg = DeclareLaunchArgument(
-        name="params_file",
-        default_value=default_slam_toolbox_config,
-        description="Parameter file location"
-    )
-    # slam_toolbox_config = os.path.join(get_package_share_directory("snowplow"), 
-                                # "config","slam", "localization_params_online_async.yaml")
-
-
     slam_toolbox = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
                     get_package_share_directory("slam_toolbox"),'launch','online_async_launch.py'

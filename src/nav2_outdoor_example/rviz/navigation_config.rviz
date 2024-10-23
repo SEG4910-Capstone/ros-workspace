@@ -1,6 +1,6 @@
 Panels:
   - Class: rviz_common/Displays
-    Help Height: 85
+    Help Height: 70
     Name: Displays
     Property Tree Widget:
       Expanded:
@@ -13,7 +13,7 @@ Panels:
         - /LaserScan1
         - /LaserScan1/Topic1
       Splitter Ratio: 0.5
-    Tree Height: 192
+    Tree Height: 70
   - Class: slam_toolbox::SlamToolboxPlugin
     Name: SlamToolboxPlugin
 Visualization Manager:
@@ -413,20 +413,20 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.3247963190078735
+      Pitch: 1.3797962665557861
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.3985671997070312
+      Yaw: 3.3935670852661133
     Saved: ~
 Window Geometry:
   Displays:
     collapsed: false
-  Height: 793
+  Height: 656
   Hide Left Dock: false
   Hide Right Dock: false
-  QMainWindow State: 000000ff00000000fd0000000100000000000001e7000002c3fc0200000002fb000000100044006900730070006c006100790073010000003b00000150000000c700fffffffb000000220053006c0061006d0054006f006f006c0062006f00780050006c007500670069006e01000001910000016d0000016d00ffffff00000413000002c300000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000100000000000001e70000023afc0200000002fb000000100044006900730070006c006100790073010000003b000000c7000000c700fffffffb000000220053006c0061006d0054006f006f006c0062006f00780050006c007500670069006e01000001080000016d0000016d00ffffff000001110000023a00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   SlamToolboxPlugin:
     collapsed: false
-  Width: 1536
-  X: 8
+  Width: 766
+  X: 769
   Y: 31
