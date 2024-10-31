@@ -80,6 +80,15 @@ def generate_launch_description():
         description="Flag for node to follow sim clock",
     )
 
+    default_slam_toolbox_config = os.path.join(get_package_share_directory("nav2_outdoor_example"), 
+                                    "config","slam", "mapper_params_online_async.yaml")
+    slam_toolbox_arg = DeclareLaunchArgument(
+        name="params_file",
+        default_value=default_slam_toolbox_config,
+        description="Parameter file location"
+    )
+    
+
     slam_toolbox = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
                     get_package_share_directory("slam_toolbox"),'launch','online_async_launch.py'
@@ -92,12 +101,12 @@ def generate_launch_description():
         [
             slam_toolbox_arg,
             use_sim_time_arg,
-            slam_toolbox,
+            # slam_toolbox,
             # ukf_localization_node,
             navsat_transform_node,
             ekf_odom,
             ekf_map,
-            # map_transform_node
+            map_transform_node
         ]
     )
 
