@@ -47,3 +47,7 @@ This command launches the map server and AMCL. The params_file parameter is opti
 ```ros2 launch snowplow navigation_launch.py use_sim_time:=true map_subscribe_transient_local:=true default_bt_xml_filename:=[path to bt tree file]```
 <br>
 This command launches the nav2 stack which has all the plugins for waypoint following, behavior tree, path planning, etc. defaukt_bt_xml_filename parameter is optional and defaults to an existing config if nothing is passed.
+
+# Updated
+
+ros2 launch snowplow snowplow_bringup.launch.py localization_file:=/root/ros-workspace/src/snowplow/config/robot_localization/simulation_ekf_gps.yaml slam_file:=/root/ros-workspace/src/snowplow/config/slam/mapper_params_online_async.yaml use_sim_time:=true params_file:=/root/ros-workspace/src/snowplow/config/nav2/nav2_params.yaml

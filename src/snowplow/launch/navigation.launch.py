@@ -13,14 +13,14 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from nav2_common.launch import RewrittenYaml
 
 def generate_launch_description():
-    pkg_share = get_package_share_directory('nav2_outdoor_example')
+    pkg_share = get_package_share_directory('snowplow')
 
 
     # Update map file path in params file
-    params_file = os.path.join(pkg_share, 'config/nav2_params.yaml')
+    params_file = os.path.join(pkg_share, 'config/nav2/nav2_params.yaml')
 
     param_substitutions = {
-        'yaml_filename': os.path.join(pkg_share, 'world/slam_navmap.yaml')
+        'yaml_filename': os.path.join(pkg_share, 'worlds/slam_navmap.yaml')
         }
 
     configured_params = RewrittenYaml(

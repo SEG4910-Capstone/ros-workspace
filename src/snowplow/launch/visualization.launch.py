@@ -10,7 +10,7 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
 
-    pkg_share = get_package_share_directory('nav2_outdoor_example')
+    pkg_share = get_package_share_directory('snowplow')
 
     # Start GUI
     rviz_config_path = os.path.join(pkg_share, "rviz/navigation_config.rviz")

@@ -12,7 +12,13 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 def generate_launch_description():
 
-    pkg_share = get_package_share_directory('nav2_outdoor_example')
+    pkg_share = get_package_share_directory('snowplow')
+
+    localization_arg = DeclareLaunchArgument(
+        name="localization_file",
+        default_value="",
+        description="File for localization configuration",
+    )
 
     map_transform_node = Node(
         package='tf2_ros',
@@ -21,10 +27,11 @@ def generate_launch_description():
         output='screen',
         arguments = "--x -1 --y 0 --z 0 --roll 0 --pitch 0 --yaw 0 --frame-id map --child-frame-id odom".split(' '),
         )
-    rl_params_file = os.path.join(pkg_share, 
-                            "config/robot_localization", "simulation_ekf_gps.yaml") # Change me for using different GPS params
+    rl_params_file = LaunchConfiguration('localization_file') # Change me for using different GPS params
     
-    controller_odom = '/diff_drive_base_controller/odom'
+    print("TESTING RL PARAMS FILE: " +  rl_params_file)
+
+    controller_odom = '/diff_cont/odom'
 
     navsat_transform_node = Node(
         package='robot_localization',
@@ -42,8 +49,8 @@ def generate_launch_description():
             "use_sim_time": True,
         }],
         remappings=[
-            ('/odometry/filtered', controller_odom),
-            ("/imu", "imu_plugin/out"), # Input Imu
+            (controller_odom, '/odometry/filtered'),
+            ("imu_plugin/out", "/imu"), # Input Imu
         ],
         arguments=['--ros-args', '--log-level', 'warn']
     )
@@ -63,28 +70,17 @@ def generate_launch_description():
                 parameters=[rl_params_file, {"use_sim_time": True}],
                 remappings=[("odometry/filtered", "odometry/global")],
             )
-    ukf_localization_node = Node(
-        package='robot_localization',
-        executable='ukf_node',
-        name='ukf_node',
-        output='screen',
-        respawn=True,
-        parameters=[os.path.join(pkg_share, 'config/ukf.yaml')],
-        remappings=[
-            ('/odometry/filtered', '/odom'),
-        ]
-        )
+
     use_sim_time_arg = DeclareLaunchArgument(
         name="use_sim_time",
         default_value="True",
         description="Flag for node to follow sim clock",
     )
 
-    default_slam_toolbox_config = os.path.join(get_package_share_directory("nav2_outdoor_example"), 
-                                    "config","slam", "mapper_params_online_async.yaml")
+
     slam_toolbox_arg = DeclareLaunchArgument(
-        name="params_file",
-        default_value=default_slam_toolbox_config,
+        name="slam_file",
+        default_value=LaunchConfiguration("slam_file"),
         description="Parameter file location"
     )
     
@@ -92,17 +88,16 @@ def generate_launch_description():
     slam_toolbox = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
                     get_package_share_directory("slam_toolbox"),'launch','online_async_launch.py'
-                )]), launch_arguments={'use_sim_time':  LaunchConfiguration("use_sim_time"), 'params_file': LaunchConfiguration("params_file")}.items()
+                )]), launch_arguments={'use_sim_time':  LaunchConfiguration("use_sim_time"), 'slam_file': LaunchConfiguration("slam_file")}.items()
     )
-
     # Add a rviz node to visualize the map
 
     return LaunchDescription(
         [
             slam_toolbox_arg,
             use_sim_time_arg,
+            localization_arg,
             slam_toolbox,
-            # ukf_localization_node,
             navsat_transform_node,
             ekf_odom,
             ekf_map,

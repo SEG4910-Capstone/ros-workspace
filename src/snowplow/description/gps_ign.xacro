@@ -13,17 +13,20 @@
       <material name="black"/>
     </visual>
   </link>
+
   <!-- <gazebo> -->
-  <gazebo>
-      <plugin filename="ignition-gazebo-navsat-system" name="ignition::gazebo::systems::NavSat"/>
-  </gazebo>
-  <gazebo reference="gps_link">
-      <material>Gazebo/Black</material>
-      <sensor name="navsat" type="navsat">
-            <always_on>1</always_on>
-            <update_rate>25.0</update_rate>
-            <topic>gps/fix</topic>
-            <ignition_frame_id>gps_link</ignition_frame_id>
-      </sensor>
-  </gazebo>
+  <xacro:if value="$(arg use_sim_time)">
+    <gazebo>
+        <plugin filename="ignition-gazebo-navsat-system" name="ignition::gazebo::systems::NavSat"/>
+    </gazebo>
+    <gazebo reference="gps_link">
+        <material>Gazebo/Black</material>
+        <sensor name="navsat" type="navsat">
+              <always_on>1</always_on>
+              <update_rate>25.0</update_rate>
+              <topic>gps/fix</topic>
+              <ignition_frame_id>gps_link</ignition_frame_id>
+        </sensor>
+    </gazebo>
+  <xacro:if/>
 </robot>
