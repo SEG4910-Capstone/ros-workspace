@@ -9,13 +9,14 @@ from launch_ros.actions import Node
 
 from launch.actions import IncludeLaunchDescription,  DeclareLaunchArgument
 from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.substitutions import LaunchConfiguration
 from nav2_common.launch import RewrittenYaml
 
 def generate_launch_description():
     pkg_share = get_package_share_directory('snowplow')
 
     params_file = os.path.join(pkg_share, 'config/nav2/nav2_params.yaml')
-    
+
     param_substitutions = {
         'yaml_filename': os.path.join(pkg_share, 'worlds/slam_navmap.yaml')
         }
@@ -25,7 +26,6 @@ def generate_launch_description():
         root_key='',
         param_rewrites=param_substitutions,
         convert_types=True)
-
 
     # Start map server
     lifecycle_nodes = ['map_server']
@@ -43,7 +43,7 @@ def generate_launch_description():
                 name='lifecycle_manager_localization',
                 output='screen',
                 arguments=['--ros-args', '--log-level', 'info'],
-                parameters=[{'use_sim_time': True},
+                parameters=[{'use_sim_time': False},
                             {'autostart': True},
                             {'node_names': lifecycle_nodes}])
 
@@ -53,7 +53,7 @@ def generate_launch_description():
     # Start navigation
     nav2_bringup_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(pkg_nav2_bringup, 'launch/navigation_launch.py')),
-        launch_arguments={'use_sim_time': 'True', 'params_file': params_file}.items(),
+        launch_arguments={'use_sim_time': 'False', 'params_file': params_file}.items(),
     )
 
 

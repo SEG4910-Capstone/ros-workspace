@@ -16,18 +16,17 @@ def generate_launch_description():
 
     slam_file = os.path.join(pkg_share, 
                                     "config","slam", "localization_params_online_async.yaml")
+    
+    rl_params_file = os.path.join(pkg_share, 
+                                    "config","robot_localization", "physical_ekf_gps.yaml")
+
     map_transform_node = Node(
         package='tf2_ros',
         executable='static_transform_publisher',
         name='map_transform',
         output='screen',
         arguments = "--x -1 --y 0 --z 0 --roll 0 --pitch 0 --yaw 0 --frame-id map --child-frame-id odom".split(' '),
-        )
-    
-    rl_params_file = os.path.join(pkg_share, "config/robot_localization", "simulation_ekf_gps.yaml") 
-    
-    print("TESTING RL PARAMS FILE: " +  rl_params_file)
-
+    )
     controller_odom = '/diff_cont/odom'
 
     navsat_transform_node = Node(
@@ -43,7 +42,7 @@ def generate_launch_description():
             "wait_for_datum": False,
             "publish_filtered_gps": False,
             "broadcast_utm_transform": False,
-            "use_sim_time": True,
+            "use_sim_time": False,
         }],
         remappings=[
             (controller_odom, '/odometry/filtered'),
@@ -56,7 +55,7 @@ def generate_launch_description():
                 executable="ekf_node",
                 name="ekf_filter_node_odom",
                 output="screen",
-                parameters=[rl_params_file, {"use_sim_time": True}],
+                parameters=[rl_params_file, {"use_sim_time": False}],
                 remappings=[("odometry/filtered", "odometry/local")],
             )
     ekf_map = Node(
@@ -64,14 +63,14 @@ def generate_launch_description():
                 executable="ekf_node",
                 name="ekf_filter_node_map",
                 output="screen",
-                parameters=[rl_params_file, {"use_sim_time": True}],
+                parameters=[rl_params_file, {"use_sim_time": False}],
                 remappings=[("odometry/filtered", "odometry/global")],
             )
 
     slam_toolbox = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
                     get_package_share_directory("slam_toolbox"),'launch','online_async_launch.py'
-                )]), launch_arguments={'use_sim_time':  True, 'slam_file': slam_file}.items()
+                )]), launch_arguments={'use_sim_time':  False, 'slam_file': slam_file}.items()
     )
     # Add a rviz node to visualize the map
 

@@ -6,7 +6,7 @@ from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
 from launch_ros.actions import Node
-from launch.substitutions import LaunchConfiguration
+from launch.substitutions import LaunchConfiguration, PythonExpression
 
 from launch.actions import ExecuteProcess, IncludeLaunchDescription, RegisterEventHandler
 from launch.launch_description_sources import PythonLaunchDescriptionSource
@@ -19,24 +19,12 @@ import xacro
 
 def generate_launch_description():
 
-    use_sim_time_arg = DeclareLaunchArgument(
-        name="use_sim_time",
-        default_value="True",
-        description="Flag for node to follow sim clock",
-    )
-
     pkg_ros_gz_sim = get_package_share_directory('ros_gz_sim')
     pkg_share = get_package_share_directory('snowplow')
     bridge_config = os.path.join(pkg_share, 'config', 'gazebo_bridge_config.yaml')
-
-
-    # xacro_file = os.path.join(pkg_share, 'urdf', 'robot.xacro.urdf')
     xacro_file = os.path.join(pkg_share, 'description', 'robot.urdf_ign.xacro')
-    xacro_args = {'use_sim_time': LaunchConfiguration('use_sim_time')}
-    doc = xacro.parse(open(xacro_file), xacro_args)
+    doc = xacro.parse(open(xacro_file))
     xacro.process_doc(doc)
-
-
 
     gz_sim = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -68,7 +56,7 @@ def generate_launch_description():
         package='robot_state_publisher',
         executable='robot_state_publisher',
         output='screen',
-        parameters=[{'robot_description': doc.toxml(), 'use_sim_time': LaunchConfiguration('use_sim_time')}],
+        parameters=[{'robot_description': doc.toxml(), 'use_sim_time': True}],
     )
 
     load_joint_state_controller = ExecuteProcess(
@@ -83,14 +71,8 @@ def generate_launch_description():
         output='screen'
     )
 
-    # gazebo_frame_modifier = Node(
-    #     package='nav2_outdoor_example',
-    #     executable='frame_id_modifier',
-    #     output='screen',
-    # )
     return LaunchDescription(
         [
-            use_sim_time_arg,
             robot_state_publisher_node,
             gz_sim,
             gz_sim_spawn_entity,
@@ -107,7 +89,6 @@ def generate_launch_description():
                 )
             ),
             bridge,
-            # gazebo_frame_modifier
         ]
     )
 

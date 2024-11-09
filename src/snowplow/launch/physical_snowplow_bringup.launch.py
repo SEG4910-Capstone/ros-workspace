@@ -15,7 +15,7 @@ def generate_launch_description():
     pkg_share = get_package_share_directory('snowplow')
 
     simulation = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/simulation.launch.py'))
+        PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/physical_simulation.launch.py'))    
     )
 
     visualization = IncludeLaunchDescription(
@@ -23,11 +23,11 @@ def generate_launch_description():
     )
 
     localization = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/slam_localization.launch.py'))
+        PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/physical_slam_localization.launch.py'))
     )
 
     navigation = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/copynavigation.launch.py'))
+        PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/physical_navigation.launch.py'))
     )
     return LaunchDescription(
         [

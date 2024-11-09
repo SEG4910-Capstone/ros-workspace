@@ -28,5 +28,5 @@
               <ignition_frame_id>gps_link</ignition_frame_id>
         </sensor>
     </gazebo>
-  <xacro:if/>
+  </xacro:if>
 </robot>

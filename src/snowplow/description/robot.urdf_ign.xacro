@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro"  name="robot">
 
-    <!-- <xacro:arg name="use_ros2_control" default="true"/> -->
     <xacro:arg name="use_sim_time" default="true"/>
     
     <xacro:include filename="$(find snowplow)/description/robot_core.xacro" />
@@ -13,7 +12,7 @@
     <xacro:include filename="$(find snowplow)/description/gps_ign.xacro"/>
 
     <xacro:include filename="$(find snowplow)/description/plowblade.xacro"/>
-    <xacro:include filename="$(find snowplow)/description/battery.xacro"/>
+    <xacro:include filename="$(find snowplow)/description/battery.xacro"/> 
 
 
     <!-- <xacro:include filename="camera.xacro" /> -->
