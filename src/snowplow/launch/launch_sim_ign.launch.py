@@ -105,6 +105,13 @@ def generate_launch_description():
         )
     )
 
+    map_transform_node = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='map_transform',
+        output='screen',
+        arguments = "--x 0 --y 0 --z 0 --roll 0 --pitch 0 --yaw 0 --frame-id map --child-frame-id odom".split(' '),
+    )
 
 
     # Launch them all!
@@ -116,5 +123,6 @@ def generate_launch_description():
         node_robot_state_publisher,
         ignition_spawn_entity,
         joystick,
-        twist_mux
+        twist_mux,
+        map_transform_node
     ])

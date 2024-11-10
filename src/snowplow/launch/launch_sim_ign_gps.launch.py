@@ -23,10 +23,11 @@ def generate_launch_description():
     package_name='snowplow' #<--- CHANGE ME
     package_directory = get_package_share_directory(package_name)
     
-    rl_params_file = os.path.join(get_package_share_directory(package_name), 
-                                "config/robot_localization", "simulation_ekf_gps.yaml") # Change me for using different GPS params
     map_file = os.path.join(package_directory, 'worlds', 'test.sdf')
 
+    rl_params_file = os.path.join(get_package_share_directory(package_name), 
+                                "config/robot_localization", "simulation_ekf_gps.yaml") # Change me for using different GPS params
+    
     bridge_config = os.path.join(package_directory, 'config', 'gazebo_bridge_config.yaml')
     
 
@@ -42,7 +43,7 @@ def generate_launch_description():
             executable="twist_mux",
             parameters=[twist_mux_params, {'use_sim_time': True}],
             remappings=[('/cmd_vel_out','/diff_cont/cmd_vel_unstamped')]
-        )
+    )
     
 
     xacro_file = os.path.join(package_directory,
@@ -50,7 +51,7 @@ def generate_launch_description():
                               'robot.urdf_ign.xacro')    
     doc = xacro.parse(open(xacro_file))
     xacro.process_doc(doc)
-    params = {'robot_description': doc.toxml(), 'use_sim_time': True, 'use_ros2_control:=': True}
+    params = {'robot_description': doc.toxml(), 'use_sim_time': True}
 
     node_robot_state_publisher = Node(
         package='robot_state_publisher',
@@ -66,9 +67,7 @@ def generate_launch_description():
         arguments=['-string', doc.toxml(),
                    '-name', 'snowplow',
                    '-allow_renaming', 'true',
-                   '-x', '0',
-                   '-y', '0',
-                   '-z', '1'],
+                   '-z', '0.6']
     )
     
     # Gazebo 
@@ -85,29 +84,27 @@ def generate_launch_description():
                               'launch', 'ign_gazebo.launch.py')]),
             launch_arguments=[('gz_args', [' -r -v 4 '+ map_file])])
 
-    # New method of spawning the controllers
-    joint_broad_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["joint_broad"],
+    load_joint_state_controller = ExecuteProcess(
+        cmd=['ros2', 'control', 'load_controller', '--set-state', 'active',
+             'joint_broad'],
+        output='screen'
     )
 
-    delayed_joint_broad_spawner = RegisterEventHandler(
-        event_handler=OnProcessStart(
+    delayed_joint_state_controller = RegisterEventHandler(
+        event_handler=OnProcessExit(
             target_action=ignition_spawn_entity,
-            on_start=[joint_broad_spawner],
+            on_exit=[load_joint_state_controller]
         )
     )
-    diff_drive_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["diff_cont"],
+    load_diff_drive_controller = ExecuteProcess(
+        cmd=['ros2', 'control', 'load_controller', '--set-state', 'active',
+             'diff_cont'],
+        output='screen'
     )
-
-    delayed_diff_drive_spawner = RegisterEventHandler(
+    delayed_diff_drive_controller = RegisterEventHandler(
         event_handler=OnProcessExit(
-            target_action=joint_broad_spawner,
-            on_exit=[diff_drive_spawner],
+            target_action=load_joint_state_controller,
+            on_exit=[load_diff_drive_controller]
         )
     )
 
@@ -134,23 +131,25 @@ def generate_launch_description():
                 output="screen",
                 parameters=[rl_params_file, {"use_sim_time": True}],
                 remappings=[
-                    ("imu_plugin/out", "imu/data"),
-                    ("gps/fix", "gps/filtered_fix"),
-                    ("gps/filtered", "gps/filtered"),
-                    ("odometry/gps", "odometry/gps"),
-                    ("odometry/filtered", "odometry/global"),
+                    ("imu", "imu/data"), # Input Imu
+                    ("gps/fix", "gps/fix"), # Input NavSatFix
+                    ("gps/filtered", "gps/filtered"),# Output NavSatFix
+                    ("odometry/gps", "odometry/gps"), # Output Odometry
+                    ("odometry/filtered", "odometry/global"), # Input Odometry
                 ],
             )
-    
 
     # Launch them all!
     return LaunchDescription([
         bridge,
         gazebo,
-        delayed_joint_broad_spawner,
-        delayed_diff_drive_spawner,
+        delayed_joint_state_controller,
+        delayed_diff_drive_controller,
         node_robot_state_publisher,
         ignition_spawn_entity,
         joystick,
-        twist_mux
+        twist_mux,
+        ekf_odom,
+        ekf_map,
+        navsat
     ])

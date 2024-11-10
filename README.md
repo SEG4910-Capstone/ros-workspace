@@ -18,32 +18,28 @@ To not do this each time you open up a new terminal go to the
 
 ```nano ~/.bashrc```, and add ```source {full path to your setup.bash file}```. Ex. ```source /home/ros-workspace/install/setup.bash```
 
-## Mapping
-To launch the simulation there are 3 different launch commands
-<br>
-```ros2 launch snowplow launch_sim_gps.launch.py```
-<br>
-This command launches the virtual environment with the simulated physical robot and sensors.
-<br>
-```ros2 launch snowplow slam.launch.py use_sim_time:=true params_file:=[location to mapping slam config]``` 
-<br>
-This command launches the SLAM toolbox in mapping mode where you can save the map after you navigate around the area. The params_file parameter is optional.
-<br>
-```ros2 launch snowplow navigation_launch.py use_sim_time:=true```
-<br>
-This command launches the nav2 stack which has all the plugins for waypoint following, behavior tree, path planning, etc.
+## Mapping/Localization
+To launch the simulation the following command is used
 
-## Localization
-After generating a map of the surrounding, AMCL can be used to localize the robot within a given area. For this there are 3 launch commands to run.
-<br>
-```ros2 launch snowplow launch_sim_gps.launch.py```
-<br>
-This command launches the virtual environment with the simulated physical robot and sensors. 
-<br>
-```ros2 launch snowplow localization_launch.py use_sim_time:=true map:=[the yaml file generated from SLAM mapping] params_file:=[location to nav2 config```
-<br>
-This command launches the map server and AMCL. The params_file parameter is optional again as it is defaulted to a preset config file. 
-<br>
-```ros2 launch snowplow navigation_launch.py use_sim_time:=true map_subscribe_transient_local:=true default_bt_xml_filename:=[path to bt tree file]```
-<br>
-This command launches the nav2 stack which has all the plugins for waypoint following, behavior tree, path planning, etc. defaukt_bt_xml_filename parameter is optional and defaults to an existing config if nothing is passed.
+``` ros2 launch snowplow snowplow_bringup.launch.py ```
+<br> 
+To change it to localization, go into the ```slam_localization.launch.py``` and change the config location
+```
+slam_file = os.path.join(pkg_share, 
+                        "config","slam",
+                        "mapper_params_online_async.yaml")
+```
+from ```mapper_params_online_async.yaml``` to ```localization_params_online_async.yaml``` and vice versa 
+
+## Physical Testing
+If you want to just run the robot using the remote control, run
+
+``` ros2 launch snowplow remote_control.launch.py ```
+
+If you want to run all the autonomous functionality and sensor drivers, run
+
+``` ros2 launch snowplow physical_snowplow_bringup.launch.py ``` 
+
+# Updated
+
+ros2 launch snowplow snowplow_bringup.launch.py localization_file:=/root/ros-workspace/src/snowplow/config/robot_localization/simulation_ekf_gps.yaml slam_file:=/root/ros-workspace/src/snowplow/config/slam/mapper_params_online_async.yaml use_sim_time:=true params_file:=/root/ros-workspace/src/snowplow/config/nav2/nav2_params.yaml
