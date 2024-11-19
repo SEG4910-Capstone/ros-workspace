@@ -26,8 +26,6 @@ def generate_launch_description():
     
     rl_params_file = os.path.join(pkg_share, "config/robot_localization", "simulation_ekf_gps.yaml") 
     
-    print("TESTING RL PARAMS FILE: " +  rl_params_file)
-
     controller_odom = '/diff_cont/odom'
 
     navsat_transform_node = Node(
@@ -46,7 +44,7 @@ def generate_launch_description():
             "use_sim_time": True,
         }],
         remappings=[
-            (controller_odom, '/odometry/filtered'),
+            ('/odometry/filtered', controller_odom),
             ("imu_plugin/out", "/imu"), # Input Imu
         ],
         arguments=['--ros-args', '--log-level', 'warn']
