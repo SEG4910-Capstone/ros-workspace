@@ -13,7 +13,7 @@ def generate_launch_description():
     pkg_share = get_package_share_directory('snowplow')
 
     # Start GUI
-    rviz_config_path = os.path.join(pkg_share, "rviz/navigation_config.rviz")
+    rviz_config_path = os.path.join(pkg_share, "config/rviz/navigation_config.rviz")
 
     rviz_node = Node(
         package="rviz2",
@@ -22,7 +22,7 @@ def generate_launch_description():
         output="screen",
         arguments=["-d", rviz_config_path],
     )
-
+    print("Starting up rviz with config file: " + rviz_config_path)
     return LaunchDescription(
         [
             rviz_node,
