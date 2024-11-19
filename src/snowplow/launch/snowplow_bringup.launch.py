@@ -27,7 +27,7 @@ def generate_launch_description():
     )
 
     navigation = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/copynavigation.launch.py'))
+        PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/navigation.launch.py'))
     )
     return LaunchDescription(
         [
