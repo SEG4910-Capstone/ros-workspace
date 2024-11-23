@@ -39,7 +39,3 @@ If you want to just run the robot using the remote control, run
 If you want to run all the autonomous functionality and sensor drivers, run
 
 ``` ros2 launch snowplow physical_snowplow_bringup.launch.py ``` 
-
-# Updated
-
-ros2 launch snowplow snowplow_bringup.launch.py localization_file:=/root/ros-workspace/src/snowplow/config/robot_localization/simulation_ekf_gps.yaml slam_file:=/root/ros-workspace/src/snowplow/config/slam/mapper_params_online_async.yaml use_sim_time:=true params_file:=/root/ros-workspace/src/snowplow/config/nav2/nav2_params.yaml
