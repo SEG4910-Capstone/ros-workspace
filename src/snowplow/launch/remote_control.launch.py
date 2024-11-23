@@ -8,6 +8,7 @@ from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.actions.declare_launch_argument import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
+from launch_ros.actions import Node
 
 
 def generate_launch_description():
@@ -22,9 +23,18 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/visualization.launch.py'))
     )
 
+    map_transform_node = Node(
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='map_transform',
+        output='screen',
+        arguments = "--x -1 --y 0 --z 0 --roll 0 --pitch 0 --yaw 0 --frame-id map --child-frame-id odom".split(' '),
+        )
+    
     return LaunchDescription(
         [
             simulation,
-            visualization
+            visualization,
+            map_transform_node
         ]
     )
