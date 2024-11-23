@@ -39,3 +39,7 @@ If you want to just run the robot using the remote control, run
 If you want to run all the autonomous functionality and sensor drivers, run
 
 ``` ros2 launch snowplow physical_snowplow_bringup.launch.py ``` 
+
+## Driving the vehicle
+You can drive using both the keyboard and remote control as explained above. For the keyboard control, use this command
+```ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args --remap cmd_vel:=/diff_cont/cmd_vel_unstamped```
