@@ -22,6 +22,23 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/visualization.launch.py'))
     )
 
+    lidar = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/drivers/lidar_driver.launch')),
+        launch_arguments={
+                'sensor_hostname': 'os-122116000061.local',
+                'proc_mask': 'IMG|PCL|IMU|SCAN', # use any combination of the 4 flags to enable or disable specific processors (Might be good to disable imu if not used)
+                'lidar_frame': 'laser_frame',
+                'sensor_frame': 'laser_frame',
+                'imu_frame': 'laser_frame',
+                'rviz': 'true',
+                'point_cloud_frame': 'laser_frame'
+        }.items(),
+    )
+
+    imu = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/drivers/imu_driver.launch'))
+    )
+
     localization = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/physical_slam_localization.launch.py'))
     )
@@ -31,6 +48,8 @@ def generate_launch_description():
     )
     return LaunchDescription(
         [
+            imu,
+            lidar,
             simulation,
             visualization,
             localization,

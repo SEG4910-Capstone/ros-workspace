@@ -4,15 +4,15 @@
     <xacro:unless value="$(arg use_sim_time)">
         <ros2_control name="RealRobot" type="system">
             <hardware>
-                <plugin>motor_controller/DiffBotSystemHardware</plugin>
+                <plugin>snowplow_motor_controller/DiffBotSystemHardware</plugin>
                 <param name="left_wheel_name">left_wheel_joint</param>
                 <param name="right_wheel_name">right_wheel_joint</param>
-                <param name="loop_rate">30</param>
+                <param name="loop_rate">120</param>
                 <param name="device">/dev/ttyUSB0</param>
                 <param name="baud_rate">115200</param>
                 <param name="timeout">1000</param>
                 <!-- Check the enc counter parameter with the electrical team -->
-                <param name="enc_counts_per_rev">3000</param>
+                <param name="enc_counts_per_rev">1024</param>
             </hardware>
             <joint name="left_wheel_joint">
                 <command_interface name="velocity">
@@ -31,6 +31,11 @@
                 <state_interface name="position"/>
             </joint>
         </ros2_control>
+        <gazebo>
+            <plugin name="motor_controller" filename="libsnowplow_motor_controller.so">
+                <parameters>$(find snowplow)/config/my_controllers.yaml</parameters>
+            </plugin>    
+        </gazebo>
     </xacro:unless>
 
     <xacro:if value="$(arg use_sim_time)">
@@ -55,16 +60,10 @@
                 <state_interface name="position"/>
             </joint>
         </ros2_control>
+        <gazebo>
+            <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+                <parameters>$(find snowplow)/config/my_controllers_sim.yaml</parameters>
+            </plugin>
+        </gazebo>
     </xacro:if>
-
-        
-    <gazebo>
-        <plugin filename="ign_ros2_control-system" name="ign_ros2_control::IgnitionROS2ControlPlugin">
-            <parameters>$(find snowplow)/config/my_controllers_sim.yaml</parameters>
-        </plugin>
-        <plugin name="motor_controller" filename="libsnowplow_motor_controller.so">
-            <parameters>$(find snowplow)/config/my_controllers.yaml</parameters>
-        </plugin>    
-    </gazebo>
-
 </robot>
