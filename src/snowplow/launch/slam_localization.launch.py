@@ -45,8 +45,7 @@ def generate_launch_description():
         }],
         remappings=[
             ('/odometry/filtered', controller_odom),
-            ("imu_plugin/out", "/imu"), # Input Imu
-            ("odometry/filtered", "odometry/global")
+            ("/imu_plugin/out", "/imu"), # Input Imu
         ],
         arguments=['--ros-args', '--log-level', 'warn']
     )
@@ -76,11 +75,11 @@ def generate_launch_description():
 
     return LaunchDescription(
         [
-            slam_toolbox,
+            # slam_toolbox,
             navsat_transform_node,
             ekf_odom,
             ekf_map,
-            # map_transform_node
+            map_transform_node
         ]
     )
 
