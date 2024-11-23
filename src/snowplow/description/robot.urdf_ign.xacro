@@ -14,10 +14,6 @@
     <xacro:include filename="$(find snowplow)/description/plowblade.xacro"/>
     <xacro:include filename="$(find snowplow)/description/battery.xacro"/> 
 
-
-    <!-- <xacro:include filename="camera.xacro" /> -->
-    <!-- <xacro:include filename="depth_camera.xacro" /> -->
-
     <xacro:include filename="$(find snowplow)/description/face.xacro" />
     
 </robot>

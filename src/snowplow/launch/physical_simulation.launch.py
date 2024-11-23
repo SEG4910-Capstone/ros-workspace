@@ -16,7 +16,8 @@ import xacro
 def generate_launch_description():
     pkg_share = get_package_share_directory('snowplow')
     xacro_file = os.path.join(pkg_share, 'description', 'robot.urdf_ign.xacro')
-    doc = xacro.parse(open(xacro_file))
+    doc = xacro.process_file(xacro_file, mappings={'use_sim_time': 'false'})
+    # doc = xacro.parse(open(xacro_file))
     xacro.process_doc(doc)
 
     joystick = IncludeLaunchDescription(
@@ -49,7 +50,7 @@ def generate_launch_description():
 
     load_joint_trajectory_controller = ExecuteProcess(
         cmd=['ros2', 'control', 'load_controller', '--set-state', 'active',
-             'diff_drive_base_controller'],
+             'diff_cont'],
         output='screen'
     )
 
