@@ -26,6 +26,15 @@ def generate_launch_description():
                 )]), launch_arguments={'use_sim_time': 'true'}.items()
     )
 
+
+    twist_stamper = Node(
+        package='twist_stamper',
+        executable='twist_stamper',
+        parameters=[{'use_sim_time': 'false'}],
+        remappings=[('/cmd_vel_in', '/diff_cont/cmd_vel_unstamped'),
+                    ('cmd_vel_out', '/diff_cont/cmd_vel')]
+    )
+
     twist_mux_params = os.path.join(pkg_share,'config','twist_mux.yaml')
 
     twist_mux = Node(
@@ -58,6 +67,7 @@ def generate_launch_description():
         [
             joystick,
             twist_mux,
+            twist_stamper,
             robot_state_publisher_node,
             load_joint_state_controller,
             load_joint_trajectory_controller
