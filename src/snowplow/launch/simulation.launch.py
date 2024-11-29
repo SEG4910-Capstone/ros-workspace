@@ -50,7 +50,7 @@ def generate_launch_description():
         arguments=['-string', doc.toxml(),
                    '-name', 'snowplow',
                    '-allow_renaming', 'true',
-                   '-z', '0.4'],
+                   '-z', '0.15'],
     )
 
     bridge = ExecuteProcess(
@@ -65,7 +65,7 @@ def generate_launch_description():
         package='robot_state_publisher',
         executable='robot_state_publisher',
         output='screen',
-        parameters=[{'robot_description': doc.toxml(), 'use_sim_time': True}],
+        parameters=[{'robot_description': doc.toxml()}],
     )
 
     load_joint_state_controller = ExecuteProcess(

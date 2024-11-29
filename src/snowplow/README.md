@@ -1,7 +1,15 @@
-## Robot Package Template
+## Competition Checklist
+1. Update <b>*ellipse_N.yaml*</b> with the
+    1. Dunwoody College coordinates
+        - 44.973119 (Lat)
+        - -93.290991 (Long)
+    2. Primary Lever Arm (Fffset between the IMU and the antenna)
+        - Based on where the GPS antenna is placed and the IMU, modify the X, Y, Z values
+        - In the N, we only have one antenna so the secondary lever arm doesn't need to be accounted for
+2. Update the ```magnetic_declination_radians``` in the physical_slam_localization.launch.py based on the coordinate
+    - [Magnetic Declination calculator](https://www.ngdc.noaa.gov/geomag/calculators/magcalc.shtml)
+3. Setup the IMU calibration service (https://support.sbg-systems.com/sc/kb/latest/inertial-sensors-installation/magnetic-calibration)
+    - Ideally, keep the device away from source of disturbances from at least 3 meters
+    - Connect the SBG ellipse with a computer and run the [sbgCenter](https://support.sbg-systems.com/sc/dev/latest/sbgcenter-application) software. From there, find the magnetometer calibration and calibrate
 
-This is a GitHub template. You can make your own copy by clicking the green "Use this template" button.
-
-It is recommended that you keep the repo/package name the same, but if you do change it, ensure you do a "Find all" using your IDE (or the built-in GitHub IDE by hitting the `.` key) and rename all instances of `my_bot` to whatever your project's name is.
-
-Note that each directory currently has at least one file in it to ensure that git tracks the files (and, consequently, that a fresh clone has direcctories present for CMake to find). These example files can be removed if required (and the directories can be removed if `CMakeLists.txt` is adjusted accordingly).
+Finally, build the entire project, source it, then execute the project!

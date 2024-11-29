@@ -45,8 +45,8 @@
 
         <gazebo reference="laser_frame">
             <material>Gazebo/Black</material>
-            <ignition_frame_id>laser_frame</ignition_frame_id>
             <sensor name="gpu_lidar" type="gpu_lidar">
+                <ignition_frame_id>laser_frame</ignition_frame_id>
                 <pose relative_to='laser_frame'> 0 0 0 0 0 4.71 </pose>
                 <topic>scan</topic>
                 <visualize>true</visualize>

@@ -223,7 +223,7 @@
     <joint name="caster_wheel_joint" type="fixed">
         <parent link="chassis"/>
         <child link="caster_wheel"/>
-        <origin xyz="${-chassis_length + 0.1} 0 ${-wheel_radius/2}"/>
+        <origin xyz="${-chassis_length + 0.1} 0 ${-wheel_radius/2 + 0.01}"/>
     </joint>
 
 
