@@ -47,7 +47,6 @@ def generate_launch_description():
         remappings=[
             (controller_odom, '/odometry/filtered'),
             ("imu_plugin/out", "/imu"), # Input Imu
-            ("odometry/filtered", "odometry/global")
         ],
         arguments=['--ros-args', '--log-level', 'warn']
     )

@@ -26,6 +26,15 @@ def generate_launch_description():
     doc = xacro.process_file(xacro_file, mappings={'use_sim_time': 'true'})
     xacro.process_doc(doc)
 
+    twist_mux_params = os.path.join(pkg_share,'config','twist_mux.yaml')
+    twist_mux = Node(
+            package="twist_mux",
+            executable="twist_mux",
+            parameters=[twist_mux_params, {'use_sim_time': True}],
+            remappings=[('/cmd_vel_out','/diff_cont/cmd_vel_unstamped')]
+    )
+
+
     gz_sim = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(pkg_ros_gz_sim, 'launch', 'gz_sim.launch.py')),
@@ -73,6 +82,7 @@ def generate_launch_description():
 
     return LaunchDescription(
         [
+            twist_mux,
             robot_state_publisher_node,
             gz_sim,
             gz_sim_spawn_entity,

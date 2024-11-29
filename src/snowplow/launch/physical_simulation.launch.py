@@ -35,6 +35,14 @@ def generate_launch_description():
             remappings=[('/cmd_vel_out','/diff_cont/cmd_vel_unstamped')]
     )
 
+    twist_stamper = Node(
+        package='twist_stamper',
+        executable='twist_stamper',
+        parameters=[{'use_sim_time': 'false'}],
+        remappings=[('/cmd_vel_in', '/diff_cont/cmd_vel_unstamped'),
+                    ('cmd_vel_out', '/diff_cont/cmd_vel')]
+    )
+
     robot_state_publisher_node = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
@@ -58,6 +66,7 @@ def generate_launch_description():
         [
             joystick,
             twist_mux,
+            twist_stamper,
             robot_state_publisher_node,
             load_joint_state_controller,
             load_joint_trajectory_controller
