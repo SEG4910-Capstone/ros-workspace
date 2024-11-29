@@ -12,7 +12,7 @@
     <xacro:include filename="$(find snowplow)/description/gps_ign.xacro"/>
 
     <xacro:include filename="$(find snowplow)/description/plowblade.xacro"/>
-    <xacro:include filename="$(find snowplow)/description/battery.xacro"/> 
+    <!-- <xacro:include filename="$(find snowplow)/description/battery.xacro"/>  -->
 
     <xacro:include filename="$(find snowplow)/description/face.xacro" />
     

@@ -4,23 +4,19 @@
     <joint name="imu_joint" type="fixed">
         <parent link="chassis"/>
         <child link="imu_link"/>
-        <origin xyz="-0.375 0 0.278" rpy="0 0.18 0"/>
+        <origin xyz="0.675 0 1.0" rpy="0 0.0 0"/>
     </joint>
 
     <link name="imu_link">
         <visual>
             <geometry>
-                <box size="0.07 0.03 0.03"/>
+                <box size="0.046 0.045 0.024"/>
             </geometry>
             <material name="black"/>
         </visual>
-        <visual>
-            <origin xyz="0 0 -0.05"/>
-            <geometry>
-                <cylinder radius="0.002" length="0.1"/>
-            </geometry>
-            <material name="black"/>
-        </visual>
+        <xacro:inertial_box mass="0.029" x="0.046" y="0.045" z="0.024">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_box>
     </link>
     
     <!-- Only enable gazebo simulation if in simulation mode -->
@@ -30,11 +26,11 @@
         </gazebo>
         <gazebo reference="imu_link">
             <sensor name="imu" type="imu">
-            <always_on>1</always_on>
-            <update_rate>10</update_rate> <!-- To simulate orientation coming from dual GNSS -->
-            <visualize>false</visualize>
-            <topic>imu</topic>
-            <ignition_frame_id>imu_link</ignition_frame_id>
+                    <always_on>1</always_on>
+                    <update_rate>25</update_rate> <!-- To simulate orientation coming from dual GNSS -->
+                    <visualize>false</visualize>
+                    <topic>imu</topic>
+                    <ignition_frame_id>imu_link</ignition_frame_id>
             </sensor>
         </gazebo>
     </xacro:if>

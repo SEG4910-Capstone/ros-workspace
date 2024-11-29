@@ -32,6 +32,12 @@ slam_file = os.path.join(pkg_share,
 from ```mapper_params_online_async.yaml``` to ```localization_params_online_async.yaml``` and vice versa 
 
 ## Physical Testing
+### Setup 
+#### SBG Systems 
+To be able to communicate with the device, be sure that your user is part of the dialout group.
+Once added, restart your machine to save and apply the changes.
+``` sudo adduser $USER dialout ```
+#
 If you want to just run the robot using the remote control, run
 
 ``` ros2 launch snowplow remote_control.launch.py ```

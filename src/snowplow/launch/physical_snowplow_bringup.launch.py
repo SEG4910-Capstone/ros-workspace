@@ -31,7 +31,8 @@ def generate_launch_description():
                 'sensor_frame': 'laser_frame',
                 'imu_frame': 'laser_frame',
                 'rviz': 'true',
-                'point_cloud_frame': 'laser_frame'
+                'point_cloud_frame': 'laser_frame',
+                'max_range': '50',
         }.items(),
     )
 

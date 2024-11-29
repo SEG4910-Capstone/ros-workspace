@@ -15,7 +15,7 @@ def generate_launch_description():
     pkg_share = get_package_share_directory('snowplow')
 
     slam_file = os.path.join(pkg_share, 
-                                    "config","slam", "localization_params_online_async.yaml")
+                                    "config","slam", "mapper_params_online_async.yaml")
     map_transform_node = Node(
         package='tf2_ros',
         executable='static_transform_publisher',
@@ -38,15 +38,15 @@ def generate_launch_description():
             "yaw_offset": 0.0,
             "zero_altitude": True,
             "use_odometry_yaw": False,
-            "wait_for_datum": False,
+            "wait_for_datum": False, # Might need to set this true for this to work with gps properly
             "publish_filtered_gps": False,
             "broadcast_utm_transform": False,
             "use_sim_time": True,
         }],
         remappings=[
-            ('/odometry/filtered', controller_odom),
-            ("imu_plugin/out", "/imu"), # Input Imu
-            ("odometry/filtered", "odometry/global")
+            ('/odometry/filtered', '/odometry/local'), #Input odom # http://docs.ros.org/en/melodic/api/robot_localization/html/integrating_gps.html This doc is a bit outdated but the remapping is still the same
+            # ("/imu", "/imu"), # Input Imu
+            # ("/gps/fix", "/gps/fix")
         ],
         arguments=['--ros-args', '--log-level', 'warn']
     )
@@ -77,9 +77,9 @@ def generate_launch_description():
     return LaunchDescription(
         [
             slam_toolbox,
-            navsat_transform_node,
             ekf_odom,
             ekf_map,
+            navsat_transform_node,
             # map_transform_node
         ]
     )

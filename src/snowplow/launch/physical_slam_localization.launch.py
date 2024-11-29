@@ -27,30 +27,30 @@ def generate_launch_description():
         output='screen',
         arguments = "--x -1 --y 0 --z 0 --roll 0 --pitch 0 --yaw 0 --frame-id map --child-frame-id odom".split(' '),
     )
-    controller_odom = '/diff_cont/odom'
+    controller_odom = '/diff_cont/odom' 
 
-    navsat_transform_node = Node(
-        package='robot_localization',
-        executable='navsat_transform_node',
-        name='navsat_transform_node',
-        output='screen',
-        parameters=[{
-            "magnetic_declination_radians": 0.0,
-            "yaw_offset": 0.0,
-            "zero_altitude": True,
-            "use_odometry_yaw": False,
-            "wait_for_datum": False,
-            "publish_filtered_gps": False,
-            "broadcast_utm_transform": False,
-            "use_sim_time": False,
-        }],
-        remappings=[
-            (controller_odom, '/odometry/filtered'),
-            ("imu_plugin/out", "/imu"), # Input Imu
-            ("odometry/filtered", "odometry/global")
-        ],
-        arguments=['--ros-args', '--log-level', 'warn']
-    )
+    #  I believe we don't need this node as the SBG ellipse already fuses the IMU and GPS data to generate the odom
+    # navsat_transform_node = Node(
+    #     package='robot_localization',
+    #     executable='navsat_transform_node',
+    #     name='navsat_transform_node',
+    #     output='screen',
+    #     parameters=[{
+    #         "magnetic_declination_radians": 0.0,
+    #         "yaw_offset": 0.0,
+    #         "zero_altitude": True,
+    #         "use_odometry_yaw": False,
+    #         "wait_for_datum": False,
+    #         "publish_filtered_gps": False,
+    #         "broadcast_utm_transform": False,
+    #         "use_sim_time": False,
+    #     }],
+    #     remappings=[
+    #         (controller_odom, '/odometry/filtered'),
+    #         ("imu_plugin/out", "/imu"), # Input Imu
+    #     ],
+    #     arguments=['--ros-args', '--log-level', 'warn']
+    # )
     ekf_odom = Node(
                 package="robot_localization",
                 executable="ekf_node",
@@ -59,6 +59,8 @@ def generate_launch_description():
                 parameters=[rl_params_file, {"use_sim_time": False}],
                 remappings=[("odometry/filtered", "odometry/local")],
             )
+    
+    # Might not need the ekf filter for the map if the SBG fused information is already accurate with minimal drift
     ekf_map = Node(
                 package="robot_localization",
                 executable="ekf_node",
@@ -78,7 +80,7 @@ def generate_launch_description():
     return LaunchDescription(
         [
             slam_toolbox,
-            navsat_transform_node,
+            # navsat_transform_node,
             ekf_odom,
             ekf_map,
             # map_transform_node
