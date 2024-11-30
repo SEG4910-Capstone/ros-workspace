@@ -23,21 +23,16 @@ def generate_launch_description():
     )
 
     lidar = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/drivers/lidar_driver.launch')),
+        PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/drivers/lidar_driver.launch.py')),
         launch_arguments={
-                'sensor_hostname': 'os-122116000061.local',
-                'proc_mask': 'IMG|PCL|IMU|SCAN', # use any combination of the 4 flags to enable or disable specific processors (Might be good to disable imu if not used)
-                'lidar_frame': 'laser_frame',
-                'sensor_frame': 'laser_frame',
-                'imu_frame': 'laser_frame',
-                'rviz': 'true',
-                'point_cloud_frame': 'laser_frame',
-                'max_range': '50',
+                'params_file': os.path.join(pkg_share, 'config', 'ouster', 'driver_params.yaml'),
+                'auto_start': 'True',
+                'ouster_ns': 'ouster_ns'
         }.items(),
     )
 
     imu = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/drivers/imu_driver.launch'))
+        PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/drivers/sbg_ellipse.launch.py'))
     )
 
     localization = IncludeLaunchDescription(
