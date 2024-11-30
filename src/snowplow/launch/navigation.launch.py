@@ -10,6 +10,8 @@ from launch_ros.actions import Node
 from launch.actions import IncludeLaunchDescription,  DeclareLaunchArgument
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from nav2_common.launch import RewrittenYaml
+from launch_ros.descriptions import ComposableNode
+from launch_ros.actions import LoadComposableNodes
 
 def generate_launch_description():
     pkg_share = get_package_share_directory('snowplow')
@@ -22,50 +24,142 @@ def generate_launch_description():
 
     configured_params = RewrittenYaml(
         source_file=params_file,
-        root_key='',
+        root_key='', # Might need to check the namespace Here, he uses namespace input https://github.com/joshnewans/articubot_one/blob/humble/launch/navigation_launch.py
         param_rewrites=param_substitutions,
         convert_types=True)
 
-
+    container_name = 'snowplow/nav2_container' # container refers to a composition container, which is used for loading and running multiple nodes within the same process. This is to help w performance
+    remappings = [('/tf', 'tf'),
+                ('/tf_static', 'tf_static')]
     # Start map server
-    lifecycle_nodes = ['map_server']
-    map_server_node = Node(
-                package='nav2_map_server',
-                executable='map_server',
-                name='map_server',
-                output='screen',
+    lifecycle_nodes = ['controller_server',
+                       'smoother_server',
+                       'planner_server',
+                       'behavior_server',
+                       'bt_navigator',
+                       'waypoint_follower',
+                       'velocity_smoother']
+    map_server = Node(
+        package='nav2_map_server',
+        executable='map_server',
+        name='map_server',
+        output='screen',
+        parameters=[configured_params],
+        remappings=remappings),
+
+    amcl = Node(
+        package='nav2_amcl',
+        executable='amcl',
+        name='amcl',
+        output='screen',
+        parameters=[configured_params],
+        remappings=remappings),
+
+    lifecycle_manager = Node(
+        package='nav2_lifecycle_manager',
+        executable='lifecycle_manager',
+        name='lifecycle_manager_localization',
+        output='screen',
+        parameters=[{'use_sim_time': 'true'},
+                    {'autostart': 'true'},
+                    {'node_names': lifecycle_nodes}])
+    
+    load_composable_nodes = LoadComposableNodes(
+        target_container=container_name,
+        composable_node_descriptions=[
+            ComposableNode(
+                package='nav2_controller',
+                plugin='nav2_controller::ControllerServer',
+                name='controller_server',
                 parameters=[configured_params],
-                arguments=['--ros-args', '--log-level', 'info'])
-
-    map_server_lifecycle_node = Node(
+                remappings=remappings + [('cmd_vel', 'cmd_vel_nav')]),
+            ComposableNode(
+                package='nav2_smoother',
+                plugin='nav2_smoother::SmootherServer',
+                name='smoother_server',
+                parameters=[configured_params],
+                remappings=remappings),
+            ComposableNode(
+                package='nav2_planner',
+                plugin='nav2_planner::PlannerServer',
+                name='planner_server',
+                parameters=[configured_params],
+                remappings=remappings),
+            ComposableNode(
+                package='nav2_behaviors',
+                plugin='behavior_server::BehaviorServer',
+                name='behavior_server',
+                parameters=[configured_params],
+                remappings=remappings),
+            ComposableNode(
+                package='nav2_bt_navigator',
+                plugin='nav2_bt_navigator::BtNavigator',
+                name='bt_navigator',
+                parameters=[configured_params],
+                remappings=remappings),
+            ComposableNode(
+                package='nav2_waypoint_follower',
+                plugin='nav2_waypoint_follower::WaypointFollower',
+                name='waypoint_follower',
+                parameters=[configured_params],
+                remappings=remappings),
+            ComposableNode(
+                package='nav2_velocity_smoother',
+                plugin='nav2_velocity_smoother::VelocitySmoother',
+                name='velocity_smoother',
+                parameters=[configured_params],
+                remappings=remappings +
+                           [('cmd_vel', 'cmd_vel_nav'), ('cmd_vel_smoothed', 'cmd_vel')]),
+            ComposableNode(
                 package='nav2_lifecycle_manager',
-                executable='lifecycle_manager',
-                name='lifecycle_manager_localization',
-                output='screen',
-                arguments=['--ros-args', '--log-level', 'info'],
-                parameters=[{'use_sim_time': True},
-                            {'autostart': True},
-                            {'node_names': lifecycle_nodes}])
-
-    pkg_nav2_bringup = get_package_share_directory('nav2_bringup')
-
-
-    # Start navigation
-    nav2_bringup_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(pkg_nav2_bringup, 'launch/navigation_launch.py')),
-        launch_arguments={'use_sim_time': 'True', 'params_file': params_file}.items(),
+                plugin='nav2_lifecycle_manager::LifecycleManager',
+                name='lifecycle_manager_navigation',
+                parameters=[{'use_sim_time': 'true',
+                             'autostart': 'true',
+                             'node_names': lifecycle_nodes}]),
+        ],
     )
+    return LaunchDescription([
+        load_composable_nodes
+    ])
+    #  ****** Nav2 out door version ******
+    # map_server_node = Node(
+    #             package='nav2_map_server',
+    #             executable='map_server',
+    #             name='map_server',
+    #             output='screen',
+    #             parameters=[configured_params],
+    #             arguments=['--ros-args', '--log-level', 'info'])
+
+    # map_server_lifecycle_node = Node(
+    #             package='nav2_lifecycle_manager',
+    #             executable='lifecycle_manager',
+    #             name='lifecycle_manager_localization',
+    #             output='screen',
+    #             arguments=['--ros-args', '--log-level', 'info'],
+    #             parameters=[{'use_sim_time': True},
+    #                         {'autostart': True},
+    #                         {'node_names': lifecycle_nodes}])
+
+    # pkg_nav2_bringup = get_package_share_directory('nav2_bringup')
 
 
-    return LaunchDescription(
-        [
-            map_server_node,
-            map_server_lifecycle_node,
-            nav2_bringup_launch
-        ]
-    )
+    # # Start navigation
+    # nav2_bringup_launch = IncludeLaunchDescription(
+    #     PythonLaunchDescriptionSource(os.path.join(pkg_nav2_bringup, 'launch/navigation_launch.py')),
+    #     launch_arguments={'use_sim_time': 'True', 'params_file': params_file}.items(),
+    # )
 
 
+    # return LaunchDescription(
+    #     [
+    #         # map_server_node,
+    #         map_server_lifecycle_node,
+    #         nav2_bringup_launch
+    #     ]
+    # )
+
+    # **** old version *****
     # namespace = LaunchConfiguration('namespace')
     # use_sim_time = LaunchConfiguration('use_sim_time')
     # autostart = LaunchConfiguration('autostart')

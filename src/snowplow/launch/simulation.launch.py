@@ -50,7 +50,7 @@ def generate_launch_description():
         arguments=['-string', doc.toxml(),
                    '-name', 'snowplow',
                    '-allow_renaming', 'true',
-                   '-z', '0.15'],
+                   '-z', '0.25'],
     )
 
     bridge = ExecuteProcess(
