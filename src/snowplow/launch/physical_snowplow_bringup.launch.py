@@ -14,25 +14,12 @@ def generate_launch_description():
 
     pkg_share = get_package_share_directory('snowplow')
 
-    simulation = IncludeLaunchDescription(
+    physical = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/physical_simulation.launch.py'))    
     )
 
     visualization = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/visualization.launch.py'))
-    )
-
-    lidar = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/drivers/lidar_driver.launch.py')),
-        launch_arguments={
-                'params_file': os.path.join(pkg_share, 'config', 'ouster', 'driver_params.yaml'),
-                'auto_start': 'True',
-                'ouster_ns': 'ouster_ns'
-        }.items(),
-    )
-
-    imu = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/drivers/sbg_ellipse.launch.py'))
     )
 
     localization = IncludeLaunchDescription(
@@ -44,9 +31,7 @@ def generate_launch_description():
     )
     return LaunchDescription(
         [
-            imu,
-            lidar,
-            simulation,
+            physical,
             visualization,
             localization,
             navigation,

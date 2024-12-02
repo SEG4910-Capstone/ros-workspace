@@ -62,6 +62,35 @@ def generate_launch_description():
         output='screen'
     )
 
+    ntrip = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/drivers/ntrip_client.launch.py')),
+        launch_arguments={
+                "namespace": "ntrip_client",
+                "debug": "true",
+                "host": "3.143.243.81",  # http://rtk2go.com/how-to-connect/ For the competition, will have to use the pointtonenav rtk service (virtualrtk.pointonenav.com)
+                "port": "2101",
+                "mountpoint": "CanalTerris", # For the competition, use POLARIS_LOCAL (https://support.pointonenav.com/connect-to-polaris-rtk)
+                "authenticate": "true",
+                "username": "slee305@uottawa.ca", # Change for comp (use the pointonenav username and password)
+                "password": "none",
+                "rtcm_frame_id": "odom"
+        }.items(),
+    )
+
+    lidar = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/drivers/lidar_driver.launch.py')),
+        launch_arguments={
+                'params_file': os.path.join(pkg_share, 'config', 'ouster', 'driver_params.yaml'),
+                'auto_start': 'True',
+                'ouster_ns': 'ouster_ns'
+        }.items(),
+    )
+
+    imu = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/drivers/sbg_ellipse.launch.py'))
+    )
+
+
     return LaunchDescription(
         [
             joystick,
@@ -69,7 +98,10 @@ def generate_launch_description():
             twist_stamper,
             robot_state_publisher_node,
             load_joint_state_controller,
-            load_joint_trajectory_controller
+            load_joint_trajectory_controller,
+            ntrip,
+            imu,
+            lidar
         ]
     )
 
