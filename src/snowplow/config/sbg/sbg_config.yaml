@@ -104,7 +104,7 @@
       # 2 Module connected on PORT_C
       # 3 Module connected on PORT_D
       # 5 Module is connected internally
-      gnss1ModulePortAssignment: 255
+      gnss1ModulePortAssignment: 5
       # GNSS module sync assignment:
       # 0 Module is disabled
       # 1 Synchronization is done using SYNC_IN_A pin
