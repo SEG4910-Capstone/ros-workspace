@@ -23,7 +23,7 @@ def generate_launch_description():
     )
 
     localization = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/physical_slam_localization.launch.py'))
+        PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/physical_localization.launch.py'))
     )
 
     navigation = IncludeLaunchDescription(
