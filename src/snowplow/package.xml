@@ -21,6 +21,7 @@
   <exec_depend>navigation2</exec_depend>
   <exec_depend>ros2_control</exec_depend>
   <exec_depend>ros2_controllers</exec_depend>
+  <exec_depend>twist_stamper</exec_depend>
   <exec_depend>ignition_fortress</exec_depend> <!-- This might not actually be a valid way to install iginition fortress in package xml -->
   <!-- <exec_depend>ros_ -->
   <!-- <exec_depend>gazebo_plugins</exec_depend>
