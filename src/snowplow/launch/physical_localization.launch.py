@@ -15,7 +15,7 @@ def generate_launch_description():
     pkg_share = get_package_share_directory('snowplow')
 
     slam_file = os.path.join(pkg_share, 
-                                    "config","slam", "localization_params_online_async.yaml")
+                                    "config","slam", "physical_localization_params_online_async.yaml")
     
     rl_params_file = os.path.join(pkg_share, 
                                     "config","robot_localization", "physical_ekf_gps.yaml")

@@ -15,7 +15,7 @@ from nav2_common.launch import RewrittenYaml
 def generate_launch_description():
     pkg_share = get_package_share_directory('snowplow')
 
-    params_file = os.path.join(pkg_share, 'config/nav2/nav2_params.yaml')
+    params_file = os.path.join(pkg_share, 'config/nav2/physical_nav2_params.yaml')
 
     param_substitutions = {
         'yaml_filename': os.path.join(pkg_share, 'worlds/slam_navmap.yaml')

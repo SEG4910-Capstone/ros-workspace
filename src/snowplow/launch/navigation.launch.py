@@ -17,7 +17,7 @@ def generate_launch_description():
     params_file = os.path.join(pkg_share, 'config/nav2/nav2_params.yaml')
     
     param_substitutions = {
-        'yaml_filename': os.path.join(pkg_share, 'worlds/slam_navmap.yaml')
+        'yaml_filename': os.path.join(pkg_share, 'worlds/turtlebot3_world.yaml')
         }
 
     configured_params = RewrittenYaml(

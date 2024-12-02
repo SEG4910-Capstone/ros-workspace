@@ -77,9 +77,9 @@ def generate_launch_description():
     return LaunchDescription(
         [
             slam_toolbox,
-            ekf_odom,
-            ekf_map,
-            navsat_transform_node,
+            # ekf_odom,
+            # ekf_map,
+            # navsat_transform_node,
             # map_transform_node
         ]
     )
