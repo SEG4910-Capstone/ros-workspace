@@ -34,6 +34,13 @@ def generate_launch_description():
             remappings=[('/cmd_vel_out','/diff_cont/cmd_vel_unstamped')]
     )
 
+    twist_stamper = Node(
+        package='twist_stamper',
+        executable='twist_stamper',
+        parameters=[{'use_sim_time': 'false'}],
+        remappings=[('/cmd_vel_in', '/diff_cont/cmd_vel_unstamped'),
+                    ('cmd_vel_out', '/diff_cont/cmd_vel')]
+    )
 
     gz_sim = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -83,6 +90,7 @@ def generate_launch_description():
     return LaunchDescription(
         [
             twist_mux,
+            twist_stamper,
             robot_state_publisher_node,
             gz_sim,
             gz_sim_spawn_entity,
