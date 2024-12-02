@@ -1,7 +1,40 @@
 # ros-workspace
-
+## Cloning
+When first cloning, use 
+```git clone --recurse-submodules <url>```
+If you forget to get the submodules, it will not compile. If you already cloned it, you can run 
+```git submodule update --init --recursive```
+after the fact.
 ## Installing the ros dependencies 
-This will install the dependencies like navigation2, ros2_control, etc on to the system.<br>
+Setup required for ignition simulations
+```
+sudo curl https://packages.osrfoundation.org/gazebo.gpg --output /usr/share/keyrings/pkgs-osrf-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/pkgs-osrf-archive-keyring.gpg] http://packages.osrfoundation.org/gazebo/ubuntu-stable $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/gazebo-stable.list > /dev/null
+```
+Setup required for ignition ros2_control
+```export IGNITION_VERSION=fortress```
+Setup required for ouster lidar
+```
+sudo apt install -y             \
+    ros-$ROS_DISTRO-pcl-ros     \
+    ros-$ROS_DISTRO-tf2-eigen   \
+    ros-$ROS_DISTRO-rviz2
+```
+```
+sudo apt install -y         \
+    build-essential         \
+    libeigen3-dev           \
+    libjsoncpp-dev          \
+    libspdlog-dev           \
+    libcurl4-openssl-dev    \
+    cmake                   \
+    python3-colcon-common-extensions
+```
+Setup required for sbg IMU
+```
+sudo adduser $USER dialout
+```
+This following will install the dependencies like navigation2, ros2_control, etc on to the system.<br>
 ```sudo rosdep init```<br>
 ```rosdep update```<br>
 Navigate to the ros-workspace then <br>
