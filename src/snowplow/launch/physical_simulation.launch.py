@@ -67,7 +67,7 @@ def generate_launch_description():
         launch_arguments={
                 "namespace": "ntrip_client",
                 "debug": "true",
-                "host": "3.143.243.81",  # http://rtk2go.com/how-to-connect/ For the competition, will have to use the pointtonenav rtk service (virtualrtk.pointonenav.com)
+                "host": "rtk2go.com",  # http://rtk2go.com/how-to-connect/ For the competition, will have to use the pointtonenav rtk service (virtualrtk.pointonenav.com)
                 "port": "2101",
                 "mountpoint": "CanalTerris", # For the competition, use POLARIS_LOCAL (https://support.pointonenav.com/connect-to-polaris-rtk)
                 "authenticate": "true",
@@ -81,7 +81,7 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(os.path.join(pkg_share, 'launch/drivers/lidar_driver.launch.py')),
         launch_arguments={
                 'params_file': os.path.join(pkg_share, 'config', 'ouster', 'driver_params.yaml'),
-                'auto_start': 'True',
+                'auto_start': 'true',
                 'ouster_ns': 'ouster_ns'
         }.items(),
     )

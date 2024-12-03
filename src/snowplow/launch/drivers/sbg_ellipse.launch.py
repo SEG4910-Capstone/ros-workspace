@@ -5,9 +5,11 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
 	config = os.path.join(
-		get_package_share_directory('sbg_driver'),
+		get_package_share_directory('snowplow'),
 		'config',
-		'sbg_device_uart_default.yaml'
+		'sbg',
+		'sbg_config.yaml'
+		# 'sbg_device_uart_default.yaml'
 	)
 	
 	return LaunchDescription([

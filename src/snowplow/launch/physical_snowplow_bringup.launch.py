@@ -34,7 +34,7 @@ def generate_launch_description():
             physical,
             visualization,
             localization,
-            navigation,
+            # navigation,
         ]
     )
 
