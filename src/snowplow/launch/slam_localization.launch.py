@@ -68,7 +68,6 @@ def generate_launch_description():
         name='slam_toolbox',
         output='screen'
     )
-    # Add a rviz node to visualize the map
 
     return LaunchDescription(
         [
