@@ -122,7 +122,7 @@ bt_navigator_navigate_to_pose_rclcpp_node:
 controller_server:
   ros__parameters:
     use_sim_time: True
-    odom_topic: "/odometry/local"
+    odom_topic: /odometry/local
     controller_frequency: 20.0
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.5
@@ -262,7 +262,6 @@ global_costmap:
       robot_radius: 0.5 # This value must be changed to match the actual size of the robot
       resolution: 0.05
       track_unknown_space: true
-      unknown_cost_value: 0 
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
@@ -316,7 +315,7 @@ planner_server:
     GridBased:
       plugin: "nav2_navfn_planner/NavfnPlanner"
       tolerance: 0.5
-      use_astar: false
+      use_astar: true
       allow_unknown: true
 
 planner_server_rclcpp_node:

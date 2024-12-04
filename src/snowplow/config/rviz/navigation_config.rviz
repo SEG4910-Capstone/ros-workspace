@@ -63,11 +63,6 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-        battery_pack:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
-          Value: true
         blade_bar:
           Alpha: 1
           Show Axes: false
@@ -145,8 +140,6 @@ Visualization Manager:
           Value: true
         base_link:
           Value: true
-        battery_pack:
-          Value: true
         blade_bar:
           Value: true
         caster_wheel:
@@ -187,8 +180,6 @@ Visualization Manager:
               base_footprint:
                 {}
               chassis:
-                battery_pack:
-                  {}
                 blade_bar:
                   snowplow_blade_link:
                     {}
@@ -200,10 +191,10 @@ Visualization Manager:
                   {}
                 imu_link:
                   {}
+                laser_frame:
+                  {}
                 lidar_holder:
                   {}
-              laser_frame:
-                {}
               left_wheel:
                 {}
               right_wheel:
@@ -391,6 +382,16 @@ Visualization Manager:
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: goal_pose
+    - Class: rviz_default_plugins/SetInitialPose
+      Covariance x: 0.25
+      Covariance y: 0.25
+      Covariance yaw: 0.06853891909122467
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: initialpose
   Transformation:
     Current:
       Class: rviz_default_plugins/TF
@@ -398,25 +399,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 7.180503845214844
+      Distance: 19.6253662109375
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -0.106617271900177
-        Y: -0.590247392654419
-        Z: 0.3760596513748169
+        X: -0.24805116653442383
+        Y: 0.6081988215446472
+        Z: 0.37599271535873413
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.3797962665557861
+      Pitch: 1.5697963237762451
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.3935670852661133
+      Yaw: 3.2035646438598633
     Saved: ~
 Window Geometry:
   Displays:

@@ -52,7 +52,7 @@ bt_navigator:
     use_sim_time: False
     global_frame: map
     robot_base_frame: base_link
-    odom_topic: /odometry/local
+    odom_topic: /diff_cont/odom
     bt_loop_duration: 10
     default_server_timeout: 20
     # enable_groot_monitoring: True
@@ -121,7 +121,6 @@ bt_navigator_navigate_to_pose_rclcpp_node:
 
 controller_server:
   ros__parameters:
-    odom_topic: "/odometry/local"
     use_sim_time: False
     controller_frequency: 20.0
     min_x_velocity_threshold: 0.001
@@ -208,8 +207,8 @@ local_costmap:
       robot_base_frame: base_link
       use_sim_time: False
       rolling_window: true
-      width: 3
-      height: 3
+      width: 20
+      height: 20
       resolution: 0.05
       footprint: "[ [0.418, 0.75], [0.318,0.75], [0.048, 0.375], [-0.748, 0.375], [-0.748,-0.375], [0.048,-0.375], [0.318,-0.75], [0.418,-0.75]]"  # This needs to be modified to fit the actual size of the robot
       # robot_radius: 0.22
@@ -256,11 +255,12 @@ global_costmap:
       publish_frequency: 1.0
       global_frame: map
       robot_base_frame: base_link
+      width: 500
+      height: 500
       use_sim_time: False
       robot_radius: 0.5 # This value must be changed to match the actual size of the robot
       resolution: 0.05
       track_unknown_space: true
-      unknown_cost_value: 0 
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
@@ -272,10 +272,10 @@ global_costmap:
           clearing: True
           marking: True
           data_type: "LaserScan"
-          # raytrace_max_range: 3.0
-          # raytrace_min_range: 0.0
-          # obstacle_max_range: 2.5
-          # obstacle_min_range: 0.0
+          raytrace_max_range: 3.0
+          raytrace_min_range: 0.0
+          obstacle_max_range: 2.5
+          obstacle_min_range: 0.0
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
         map_subscribe_transient_local: True
@@ -314,7 +314,7 @@ planner_server:
     GridBased:
       plugin: "nav2_navfn_planner/NavfnPlanner"
       tolerance: 0.5
-      use_astar: false
+      use_astar: true
       allow_unknown: true
 
 planner_server_rclcpp_node:

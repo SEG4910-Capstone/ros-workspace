@@ -17,7 +17,8 @@ def generate_launch_description():
     params_file = os.path.join(pkg_share, 'config/nav2/nav2_params.yaml')
     
     param_substitutions = {
-        'yaml_filename': os.path.join(pkg_share, 'worlds/turtlebot3_world.yaml')
+        'yaml_filename': os.path.join(pkg_share, 'worlds/slam/test.yaml'),
+        'use_sim_time': 'True'
         }
 
     configured_params = RewrittenYaml(
@@ -25,14 +26,28 @@ def generate_launch_description():
         root_key='',
         param_rewrites=param_substitutions,
         convert_types=True)
-
+    
 
     # Start map server
+    # lifecycle_nodes = ['controller_server',
+    #                    'smoother_server',
+    #                    'planner_server',
+    #                    'behavior_server',
+    #                    'bt_navigator',
+    #                    'waypoint_follower']
     lifecycle_nodes = ['map_server']
     map_server_node = Node(
                 package='nav2_map_server',
                 executable='map_server',
                 name='map_server',
+                output='screen',
+                parameters=[configured_params],
+                arguments=['--ros-args', '--log-level', 'info'])
+
+    amcl = Node(
+                package='nav2_amcl',
+                executable='amcl',
+                name='amcl',
                 output='screen',
                 parameters=[configured_params],
                 arguments=['--ros-args', '--log-level', 'info'])
@@ -60,6 +75,7 @@ def generate_launch_description():
     return LaunchDescription(
         [
             map_server_node,
+            # amcl,
             map_server_lifecycle_node,
             nav2_bringup_launch
         ]
