@@ -119,6 +119,21 @@ bt_navigator_navigate_to_pose_rclcpp_node:
   ros__parameters:
     use_sim_time: True
 
+costmap_filter_info_server:
+  ros__parameters:
+    use_sim_time: true
+    type: 0
+    filter_info_topic: "/costmap_filter_info"
+    mask_topic: "/keepout_filter_mask"
+    base: 0.0
+    multiplier: 1.0
+filter_mask_server:
+  ros__parameters:
+    use_sim_time: true
+    frame_id: "map"
+    topic_name: "/keepout_filter_mask"
+    yaml_filename: "/root/ros-workspace/src/snowplow/worlds/slam/test.yaml"
+
 controller_server:
   ros__parameters:
     use_sim_time: True
@@ -350,7 +365,7 @@ planner_server:
       cost_penalty: 3.5                   # Penalty to apply to higher cost areas when adding into the obstacle map dynamic programming distance expansion heuristic. This drives the robot more towards the center of passages. A value between 1.3 - 3.5 is reasonable.
       rotation_penalty: 3.0               # Penalty to apply to in-place rotations, if minimum control set contains them
       retrospective_penalty: 0.015
-      lattice_filepath: "/root/ros-workspace/src/snowplow/config/nav2/30cm.json"                # The filepath to the state lattice graph
+      lattice_filepath: "/root/ros-workspace/src/snowplow/config/nav2/planner_lattice_30cm.json"                # The filepath to the state lattice graph
       lookup_table_size: 20.0             # Size of the dubin/reeds-sheep distance window to cache, in meters.
       cache_obstacle_heuristic: true     # Cache the obstacle map dynamic programming distance expansion heuristic between subsequent replannings of the same goal location. Dramatically speeds up replanning performance (40x) if costmap is largely static.
       allow_reverse_expansion: false      # If true, allows the robot to use the primitives to expand in the mirrored opposite direction of the current robot's orientation (to reverse).
@@ -417,18 +432,17 @@ waypoint_follower:
       enabled: True
       waypoint_pause_duration: 200
 
-# Commenting out smoothers for now
-# velocity_smoother:
-#   ros__parameters:
-#     use_sim_time: True
-#     smoothing_frequency: 20.0
-#     scale_velocities: False
-#     feedback: "OPEN_LOOP"
-#     max_velocity: [0.26, 0.0, 1.0]
-#     min_velocity: [-0.26, 0.0, -1.0]
-#     max_accel: [2.5, 0.0, 3.2]
-#     max_decel: [-2.5, 0.0, -3.2]
-#     odom_topic: "odom"
-#     odom_duration: 0.1
-#     deadband_velocity: [0.0, 0.0, 0.0]
-#     velocity_timeout: 1.0
+velocity_smoother:
+  ros__parameters:
+    use_sim_time: True
+    smoothing_frequency: 20.0
+    scale_velocities: False
+    feedback: "OPEN_LOOP"
+    max_velocity: [0.26, 0.0, 1.0]
+    min_velocity: [-0.26, 0.0, -1.0]
+    max_accel: [2.5, 0.0, 3.2]
+    max_decel: [-2.5, 0.0, -3.2]
+    odom_topic: "/odometry/local"
+    odom_duration: 0.1
+    deadband_velocity: [0.0, 0.0, 0.0]
+    velocity_timeout: 1.0
