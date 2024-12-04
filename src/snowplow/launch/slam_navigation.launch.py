@@ -20,7 +20,7 @@ def generate_launch_description():
     params_file = os.path.join(pkg_share, 'config/nav2/nav2_params.yaml')
     
     param_substitutions = {
-        'yaml_filename': os.path.join(pkg_share, 'worlds/slam/test.yaml'),
+        'yaml_filename': os.path.join(pkg_share, 'worlds/competition/test.yaml'),
         'use_sim_time': 'True'
         }
 
@@ -29,118 +29,28 @@ def generate_launch_description():
         root_key='',
         param_rewrites=param_substitutions,
         convert_types=True)
+    
+    lifecycle_nodes = [
+                       'filter_mask_server', 
+                       'costmap_filter_info_server']
     remappings = [('/tf', 'tf'),
                 ('/tf_static', 'tf_static')]
     
-    # lifecycle_nodes = ['controller_server',
-    #                 'smoother_server',
-    #                 'planner_server',
-    #                 'behavior_server',
-    #                 'bt_navigator',
-    #                 'waypoint_follower',
-    #                 'velocity_smoother']
+    filter_mask_server = Node(
+            package='nav2_map_server',
+            executable='map_server',
+            name='filter_mask_server',
+            output='screen',
+            emulate_tty=True,  # https://github.com/ros2/launch/issues/188
+            parameters=[configured_params])
     
-    # load_composable_nodes = LoadComposableNodes(
-    #     target_container='nav2',
-    #     composable_node_descriptions=[
-    #         ComposableNode(
-    #             package='nav2_controller',
-    #             plugin='nav2_controller::ControllerServer',
-    #             name='controller_server',
-    #             parameters=[configured_params],
-    #             remappings=remappings + [('cmd_vel', 'cmd_vel_nav')]),
-    #         ComposableNode(
-    #             package='nav2_smoother',
-    #             plugin='nav2_smoother::SmootherServer',
-    #             name='smoother_server',
-    #             parameters=[configured_params],
-    #             remappings=remappings),
-    #         ComposableNode(
-    #             package='nav2_planner',
-    #             plugin='nav2_planner::PlannerServer',
-    #             name='planner_server',
-    #             parameters=[configured_params],
-    #             remappings=remappings),
-    #         ComposableNode(
-    #             package='nav2_behaviors',
-    #             plugin='behavior_server::BehaviorServer',
-    #             name='behavior_server',
-    #             parameters=[configured_params],
-    #             remappings=remappings),
-    #         ComposableNode(
-    #             package='nav2_bt_navigator',
-    #             plugin='nav2_bt_navigator::BtNavigator',
-    #             name='bt_navigator',
-    #             parameters=[configured_params],
-    #             remappings=remappings),
-    #         ComposableNode(
-    #             package='nav2_waypoint_follower',
-    #             plugin='nav2_waypoint_follower::WaypointFollower',
-    #             name='waypoint_follower',
-    #             parameters=[configured_params],
-    #             remappings=remappings),
-    #         ComposableNode(
-    #             package='nav2_velocity_smoother',
-    #             plugin='nav2_velocity_smoother::VelocitySmoother',
-    #             name='velocity_smoother',
-    #             parameters=[configured_params],
-    #             remappings=remappings +
-    #                        [('cmd_vel', 'cmd_vel_nav'), ('cmd_vel_smoothed', 'cmd_vel')]),
-    #         ComposableNode(
-    #             package='nav2_lifecycle_manager',
-    #             plugin='nav2_lifecycle_manager::LifecycleManager',
-    #             name='lifecycle_manager_navigation',
-    #             parameters=[{'use_sim_time': 'true',
-    #                          'autostart': 'true',
-    #                          'node_names': lifecycle_nodes}]),
-    #     ],
-    # )
-    # return LaunchDescription(
-    #     [
-    #         load_composable_nodes
-    #     ]
-    # )
-    lifecycle_nodes = ['controller_server',
-                       'smoother_server',
-                       'planner_server',
-                       'behavior_server',
-                       'bt_navigator',
-                       'waypoint_follower']
-    remappings = [('/tf', 'tf'),
-                ('/tf_static', 'tf_static')]
-
-    
-    nav2_controller = Node(
-            package='nav2_controller',
-            executable='controller_server',
+    costmap_filter_info_server = Node(
+            package='nav2_map_server',
+            executable='costmap_filter_info_server',
+            name='costmap_filter_info_server',
             output='screen',
-            parameters=[configured_params],
-            remappings=remappings,
-            arguments=['--ros-args', '--log-level', 'info'])
-
-    nav2_planner = Node(
-            package='nav2_planner',
-            executable='planner_server',
-            name='planner_server',
-            output='screen',
-            parameters=[configured_params],
-            remappings=remappings)
-
-    bt_navigator = Node(
-            package='nav2_bt_navigator',
-            executable='bt_navigator',
-            name='bt_navigator',
-            output='screen',
-            parameters=[configured_params],
-            remappings=remappings)
-
-    waypoint_follower = Node(
-            package='nav2_waypoint_follower',
-            executable='waypoint_follower',
-            name='waypoint_follower',
-            output='screen',
-            parameters=[configured_params],
-            remappings=remappings)
+            emulate_tty=True,  # https://github.com/ros2/launch/issues/188
+            parameters=[configured_params])
 
     lifecycle_node = Node(
                 package='nav2_lifecycle_manager',
@@ -152,9 +62,8 @@ def generate_launch_description():
                             {'autostart': True},
                             {'node_names': lifecycle_nodes}])
 
+
     pkg_nav2_bringup = get_package_share_directory('nav2_bringup')
-
-
     # Start navigation
     nav2_bringup_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(pkg_nav2_bringup, 'launch/navigation_launch.py')),
@@ -164,10 +73,12 @@ def generate_launch_description():
 
     return LaunchDescription(
         [
-            nav2_controller,
-            nav2_planner,
-            bt_navigator,
-            waypoint_follower,
+            # nav2_controller,
+            # nav2_planner,
+            # bt_navigator,
+            # waypoint_follower,
+            filter_mask_server,
+            costmap_filter_info_server,
             lifecycle_node,
             nav2_bringup_launch
         ]
