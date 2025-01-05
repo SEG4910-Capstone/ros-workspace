@@ -1,4 +1,6 @@
 # ros-workspace
+## Note
+The continued development has been transferred to the club [here](https://github.com/uOttawaCAV/ros-workspace)
 ## Cloning
 When first cloning, use 
 ```git clone --recurse-submodules <url>```
